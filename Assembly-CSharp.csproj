@@ -59,6 +59,9 @@
      <Compile Include="Assets\Scripts\SuperFormula.cs" />
      <Compile Include="Assets\Scripts\SuperFormulaPollyGon.cs" />
      <Compile Include="Assets\Scripts\SuperFormulaTree.cs" />
+     <Compile Include="Assets\Scripts\Voxel\Block.cs" />
+     <Compile Include="Assets\Scripts\Voxel\Chunk.cs" />
+     <Compile Include="Assets\Scripts\Voxel\MeshData.cs" />
      <Compile Include="Assets\Scripts\myDungeongen.cs" />
      <None Include="Assets\Shaders\UnityVC\StandardVC.shader" />
      <None Include="Assets\Shaders\UnityVC\StandardSpecularVC.shader" />
