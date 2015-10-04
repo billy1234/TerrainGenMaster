@@ -16,4 +16,15 @@ public class MeshData
 	{
 
 	}
+
+	public void AddQuadTriangles()
+	{
+		triangles.Add(vertices.Count - 4);
+		triangles.Add(vertices.Count - 3);
+		triangles.Add(vertices.Count - 2);
+		
+		triangles.Add(vertices.Count - 4);
+		triangles.Add(vertices.Count - 2);
+		triangles.Add(vertices.Count - 1);
+	}
 }

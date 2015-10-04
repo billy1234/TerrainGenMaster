@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\SuperFormulaPollyGon.cs" />
      <Compile Include="Assets\Scripts\SuperFormulaTree.cs" />
      <Compile Include="Assets\Scripts\Voxel\Block.cs" />
+     <Compile Include="Assets\Scripts\Voxel\BlockAir.cs" />
      <Compile Include="Assets\Scripts\Voxel\Chunk.cs" />
      <Compile Include="Assets\Scripts\Voxel\MeshData.cs" />
      <Compile Include="Assets\Scripts\myDungeongen.cs" />
