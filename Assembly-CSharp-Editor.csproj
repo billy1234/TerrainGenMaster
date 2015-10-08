@@ -47,8 +47,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Shaders\UnityVC\Editor\StandardShaderVCGUI.cs" />
+     <Compile Include="Assets\Turbulence-Library\Editor\NoiseCreator.cs" />
+     <Compile Include="Assets\Turbulence-Library\Editor\NoiseStrings2D.cs" />
+     <Compile Include="Assets\Turbulence-Library\Editor\NoiseStrings3D.cs" />
      <None Include="Assets\Shaders\UnityVC\StandardVC.shader" />
      <None Include="Assets\Shaders\UnityVC\StandardSpecularVC.shader" />
+     <None Include="Assets\Turbulence-Library\Readme.txt" />
      <None Include="Assets\Shaders\UnityVC\UnityVC.cginc" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

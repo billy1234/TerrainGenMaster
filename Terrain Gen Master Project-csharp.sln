@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{8E95888B-F4B3-599D-C2C0-56A28D2C2569}") = "Terrain Gen Master Project", "Assembly-CSharp-vs.csproj", "{BBCFB33C-C565-29D7-802E-6D0D43F03C1C}"
 EndProject
-Project("{8E95888B-F4B3-599D-C2C0-56A28D2C2569}") = "Terrain Gen Master Project", "Assembly-CSharp-Editor-vs.csproj", "{206C2AE1-312A-CA51-9C72-D36D06CBBEE0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,15 +13,11 @@ Global
 		{BBCFB33C-C565-29D7-802E-6D0D43F03C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBCFB33C-C565-29D7-802E-6D0D43F03C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBCFB33C-C565-29D7-802E-6D0D43F03C1C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{206C2AE1-312A-CA51-9C72-D36D06CBBEE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{206C2AE1-312A-CA51-9C72-D36D06CBBEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{206C2AE1-312A-CA51-9C72-D36D06CBBEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{206C2AE1-312A-CA51-9C72-D36D06CBBEE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																				GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																																		GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

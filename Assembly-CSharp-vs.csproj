@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Cell.cs" />
+     <Compile Include="Assets\Scripts\CityGeneration\CityWorld.cs" />
      <Compile Include="Assets\Scripts\CityGenerator.cs" />
      <Compile Include="Assets\Scripts\DungeonCrawlerIteration2\ChunkGenerator.cs" />
      <Compile Include="Assets\Scripts\DungeonCrawlerIteration2\TextureCompiler.cs" />
@@ -56,6 +57,8 @@
      <Compile Include="Assets\Scripts\LSystemTree.cs" />
      <Compile Include="Assets\Scripts\LSystemWalker.cs" />
      <Compile Include="Assets\Scripts\PathfindingAgent.cs" />
+     <Compile Include="Assets\Scripts\PlannetGeneration\Plannet.cs" />
+     <Compile Include="Assets\Scripts\ProcedralMeshMasterScript\PlaneBuilder.cs" />
      <Compile Include="Assets\Scripts\SuperFormula.cs" />
      <Compile Include="Assets\Scripts\SuperFormulaPollyGon.cs" />
      <Compile Include="Assets\Scripts\SuperFormulaTree.cs" />
@@ -64,9 +67,6 @@
      <Compile Include="Assets\Scripts\Voxel\Chunk.cs" />
      <Compile Include="Assets\Scripts\Voxel\MeshData.cs" />
      <Compile Include="Assets\Scripts\myDungeongen.cs" />
-     <None Include="Assets\Shaders\UnityVC\StandardVC.shader" />
-     <None Include="Assets\Shaders\UnityVC\StandardSpecularVC.shader" />
-     <None Include="Assets\Shaders\UnityVC\UnityVC.cginc" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
