@@ -20,12 +20,13 @@ public class CityWorld : MonoBehaviour
 	public float perlinScale;
 	public GameObject[] viusalDisplay = new GameObject[3];
 	public Vector3[] road1;
+	[Range(0,5)]
 	public float errosionSoftness =4;
 	[Range(0,1)]
 	public float minPopHeight;
 	[Range(0,1)]
 	public float watterClamp;
-	[Range(0,5)]
+	[Range(0,2)]
 	public float populationReductionPerFlora;
 	public float heightScale;
 
