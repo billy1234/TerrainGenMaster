@@ -7,7 +7,6 @@ public class SuperFormulaPollyGon : MonoBehaviour
 {
 	SuperFormula formulaClass;
 	MeshFilter myFilter;
-	MeshRenderer myRend;
 
 	public float a,b,m,n1,n2,n3;
 	public int points =360;
@@ -26,7 +25,7 @@ public class SuperFormulaPollyGon : MonoBehaviour
 	void setValues() //inistalizes our formula class and get the components needed
 	{
 		myFilter = GetComponent<MeshFilter> ();
-		myRend = GetComponent<MeshRenderer> ();
+
 		formulaClass = new SuperFormula (a, b, m, n1, n2, n3);
 	}
 

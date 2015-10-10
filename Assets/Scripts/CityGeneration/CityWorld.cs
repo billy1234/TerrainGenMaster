@@ -14,7 +14,7 @@ public struct road
 [RequireComponent(typeof(MeshFilter))]
 public class CityWorld : MonoBehaviour 
 {
-	public Texture2D map; //red is pop greem is vegetaion and blue is heightmap
+	public Texture2D map; //red is pop, greem is vegetaion, and blue is heightmap
 
 	public int mapSize =50;
 	public float perlinScale;
@@ -40,6 +40,19 @@ public class CityWorld : MonoBehaviour
 		displayAllMaps (viusalDisplay);
 		buildGround ();
 		GetComponent<Renderer> ().material.mainTexture = map;
+	}
+
+	public float[,] getPopMap()
+	{
+		float[,] popMap = new float[mapSize,mapSize];
+		for (int x =0; x < mapSize; x++)
+		{
+			for (int y =0; y < mapSize; y++)
+			{
+				popMap[x,y] = map.GetPixel(x,y).r;
+			}
+		}
+		return popMap;
 	}
 
 	void buildGround()
