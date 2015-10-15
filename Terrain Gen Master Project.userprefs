@@ -2,12 +2,40 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CityGeneration\GridAlgorithim.cs">
     <Files>
-      <File FileName="Assets\Scripts\CityGeneration\GridAlgorithim.cs" Line="118" Column="5" />
-      <File FileName="Assets\Scripts\CityGeneration\CityWorld.cs" Line="106" Column="19" />
+      <File FileName="Assets\Scripts\CityGeneration\GridAlgorithim.cs" Line="79" Column="9" />
+      <File FileName="Assets\Scripts\CityGeneration\CityWorld.cs" Line="24" Column="27" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True" selected="True">
+          <Node name="Assembly-CSharp" expanded="True" />
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>myCitys</Value>
+          <Value>linkedCitys</Value>
+          <Value>currentCell</Value>
+          <Value>next</Value>
+          <Value>checkIndex</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\Billy\Documents\Terrain Gen Master Project\Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="71" />
+      <Breakpoint file="C:\Users\Billy\Documents\Terrain Gen Master Project\Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="74" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="65" offsetX="782" offsetY="1057" expression="i" liveUpdate="False" />
+    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="71" offsetX="884" offsetY="1188" expression="cityIndex" liveUpdate="False" />
+    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="71" offsetX="1054" offsetY="1190" expression="myCitys.Count" liveUpdate="False" />
+    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="73" offsetX="756" offsetY="1257" expression="cityCells" liveUpdate="False" />
+    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="73" offsetX="1058" offsetY="1251" expression="myCitys[cityIndex].cityCells.Count" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

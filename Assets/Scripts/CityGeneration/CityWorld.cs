@@ -6,10 +6,6 @@ public enum ROAD_Type
 	HIGHWAY,STREET
 };
 
-public struct road
-{
-	Vector2[] nodes;
-}
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
 public class CityWorld : MonoBehaviour 
@@ -36,7 +32,6 @@ public class CityWorld : MonoBehaviour
 		errosionPass ();
 		populationGrowthPass ();
 
-		road1 = makeRoad ();
 		displayAllMaps (viusalDisplay);
 		buildGround ();
 		GetComponent<Renderer> ().material.mainTexture = map;
@@ -45,9 +40,9 @@ public class CityWorld : MonoBehaviour
 	public float[,] getPopMap()
 	{
 		float[,] popMap = new float[mapSize,mapSize];
-		for (int x =0; x < mapSize; x++)
+		for (int y =0; y< mapSize; y++)
 		{
-			for (int y =0; y < mapSize; y++)
+			for (int x =0; x < mapSize; x++)
 			{
 				popMap[x,y] = map.GetPixel(x,y).r;
 			}
@@ -108,54 +103,6 @@ public class CityWorld : MonoBehaviour
 		displayPlanes [1].GetComponent<Renderer> ().material.mainTexture = veg ;
 		displayPlanes [2].GetComponent<Renderer> ().material.mainTexture = height ;
 	}
-	Vector3[] makeRoad()
-	{
-		Vector3 firstDir = new Vector3 (0.5f, 0, 0.5f);//botom left of the image
-		Vector3[] nodes = new Vector3[10];
-		nodes [0] = Vector3.one;
-		for (int i=1; i < 10; i++) 
-		{
-			Vector3 direction;
-			if( i==1)
-			{
-				direction = firstDir;
-			}
-			else
-			{
-				direction = (nodes[i -1] - nodes[i -2]).normalized;
-			}
-			nodes[i] = nodes[i -1] +  direction;
-		}
-		return nodes;
-	}
-
-	void OnDrawGizmos()
-	{
-		if(Application.isPlaying)
-		{
-			for(int i = 0;i < road1.Length -1; i++)
-			{
-				Debug.DrawLine(road1[i], road1[i +1]);
-			}
-		}
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	void errosionPass()
 	{
