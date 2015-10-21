@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 public enum MAPDATACHANNEL
 {
 	R,G,B,A

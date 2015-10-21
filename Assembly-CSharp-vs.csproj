@@ -48,7 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Cell.cs" />
      <Compile Include="Assets\Scripts\ChunkClass\ChunkData.cs" />
-     <Compile Include="Assets\Scripts\ChunkClass\chunkTester.cs" />
+     <Compile Include="Assets\Scripts\ChunkClass\myTerrain.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\CityWorld.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\GridAlgorithim.cs" />
      <Compile Include="Assets\Scripts\CityGenerator.cs" />
