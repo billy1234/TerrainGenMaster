@@ -1,61 +1,135 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum MAPDATACHANNEL
-{
-	R,G,B,A
-};
-
 [System.Serializable]
 public struct clampPass
 {
-	public MAPDATACHANNEL channel;
+	public int channel;
 	public float minClamp;
 	public float maxClamp;
+}
+
+public enum edgeRoundStyle
+{
+	LINEAR_BOX,EXP_BOX,LINEAR_OVAL,EXP_OVAL
+}
+
+public struct clampSettings
+{
+	public edgeRoundStyle roundStyle;
+	public int paddingRows;
+	//exp value?
 }
 public class ChunkData 
 {
 
 	#region //public variables
-	public Texture2D mapCells
+	public Texture2D displayTexture
 	{
 		get 
 		{
-			mapData.Apply();
-			return mapData; 
+			//populate here
+			return buildDisplayTexture(); //only run when values changed 
+		}
+	}
+
+	Texture2D buildDisplayTexture()
+	{
+		Texture2D displayTex = new Texture2D(length,width);
+		displayTex.wrapMode = TextureWrapMode.Clamp;
+		displayTex.filterMode = FilterMode.Point;
+		for(int y =0; y < length; y++)
+		{
+			for(int x =0; x < width; x++)
+			{
+				switch(dimentions)
+				{
+				case 0:
+					break;
+				case 1:
+					displayTex.SetPixel(x,y,new Color(_mapInfo[x,y,0],0,0,0));
+					break;
+				case 2:
+					displayTex.SetPixel(x,y,new Color(_mapInfo[x,y,0],_mapInfo[x,y,1],0,0));
+					break;
+				case 3:
+					displayTex.SetPixel(x,y,new Color(_mapInfo[x,y,0],_mapInfo[x,y,1],_mapInfo[x,y,2],0));
+					break;
+				default:
+					displayTex.SetPixel(x,y,new Color(_mapInfo[x,y,0],_mapInfo[x,y,1],_mapInfo[x,y,2],_mapInfo[x,y,3]));
+					break;
+				}
+			}
+		}
+		displayTex.Apply();
+		return displayTex;
+	}
+	public int width //x axis
+	{
+		get 
+		{
+			return _mapInfo.GetLength(0); 
+		}
+	}
+	public int length//y axis
+	{
+		get 
+		{
+			return _mapInfo.GetLength(1); 
+		}
+	}
+	public int dimentions
+	{
+		get 
+		{
+			return _mapInfo.GetLength(2); 
+		}
+	}
+	public clampSettings edgeRound
+	{
+		get
+		{
+			return _edgeRound;
 		}
 		set
 		{
-			if(value.width != mapData.width ||value.height != mapData.height )
-			{
-				Debug.Log("error" +this+"is not the same dimensions as the vaue you provided");
-			}
-			mapData = value;
+			_edgeRound = value;
 		}
 	}
-	public int mapSize
+
+
+	public float[,,] mapInfo 
 	{
-		get 
+		get
 		{
-			return size; 
+			return _mapInfo;
 		}
 	}
 	#endregion
-
 	#region //internal variables
-	protected Texture2D mapData;
-	protected int size;
+	private clampSettings _edgeRound;
+	protected float[,,]  _mapInfo
+	{
+		get
+		{
+			return _mapInfo;
+		}
+		set
+		{
+			//we need to know the x and y of the value before we can set it then  we can use round edges
+			_mapInfo = value;
+		}
+	}
 	#endregion
-
 	#region //constructors
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ChunkData"/> class. with a premade image and size
 	/// </summary>
 	/// <param name="mapSize">Map size.</param>
 	/// <param name="image">Image.</param>
-	public ChunkData(int mapSize, Texture2D image)
+	public ChunkData(float[,,] values)
 	{
-		initalize(mapSize,image);
+		initalize(values);
 
 	}
 
@@ -63,29 +137,46 @@ public class ChunkData
 	/// Initializes a new instance of the <see cref="ChunkData"/> class with an empty image
 	/// </summary>
 	/// <param name="size">Size.</param>
-	public ChunkData(int mapSize)
+	public ChunkData(int width,int length)//defaults to 4 dimentions
 	{
-		initalize(mapSize,new Texture2D(mapSize,mapSize));
+
+		initalize(new float [width,length,4]);
 	}
 
-	private void initalize(int mapSize, Texture2D image) // havge this here pulery so i dont duplicate logic
+	private void initalize(float[,,] values) // havge this here pulery so i dont duplicate logic
 	{
-		if(image.height != mapSize || image.width != mapSize)
+		if(values.GetLength(0) < 2 || values.GetLength(1) < 2) //ensures the map is a square
 		{
-			Debug.LogError("the size you provided for " +this+" does not match the size of the image you provided");
+			Debug.LogError("the size you provided for " +this+" is not large enough to build a quad");
 		}
-		size = mapSize;
-		mapData = image;
-		mapData.filterMode = FilterMode.Point;
-		mapData.wrapMode = TextureWrapMode.Clamp;
+		_mapInfo = values;
 	}
 	#endregion
+	#region //functions
+
+	private void roundEdges(ref float original)
+	{
+		//
+		switch(_edgeRound.roundStyle)
+		{
+		case edgeRoundStyle.LINEAR_BOX:
+				
+				break;
+
+		default:
+				Debug.Log("error"+_edgeRound.roundStyle+" is not implimented yet");
+				break;
+		}
+	}
+
+
 	public void fillAllWithRandomPerlin(float perlinZoom)
 	{
-		fillWithPerlin(	Random.Range(0f,10f), 	Random.Range(0f,10f),	perlinZoom, MAPDATACHANNEL.R);
-		fillWithPerlin(	Random.Range(0f,10f), 	Random.Range(0f,10f),	perlinZoom, MAPDATACHANNEL.G);
-		fillWithPerlin(	Random.Range(0f,10f), 	Random.Range(0f,10f),	perlinZoom, MAPDATACHANNEL.B);
-		fillWithPerlin(	Random.Range(0f,10f),	Random.Range(0f,10f),	perlinZoom, MAPDATACHANNEL.G);
+		for(int i=0; i < dimentions; i++)
+		{
+			fillWithPerlin(	Random.Range(0f,10f), 	Random.Range(0f,10f),	perlinZoom,i);
+		}
+
 	}
 
 	/// <summary>
@@ -94,96 +185,46 @@ public class ChunkData
 	/// <param name="seedX">Seed x.</param>
 	/// <param name="seedY">Seed y.</param>
 	/// <param name="perlinZoom">Perlin zoom.</param>
-	public void fillWithPerlin(float seedX, float seedY,float perlinZoom, MAPDATACHANNEL channel)
+	public void fillWithPerlin(float seedX, float seedY,float perlinZoom, int channel)
 	{
-		for(int y =0; y < size; y++)
+		for(int y =0; y < length; y++)
 		{
-			for(int x =0; x < size; x++)
+			for(int x =0; x < width; x++)
 			{
 				float cellValue =Mathf.PerlinNoise(seedX + x * perlinZoom,seedY + y* perlinZoom);
-				accesWithMdc(channel,x,y,cellValue);  
+				_mapInfo[x,y,channel] = cellValue;  
 			}
 		}
-		mapData.Apply();
 	}
 	/// <summary>
 	/// fills the channel specified with perlin noise with no seed
 	/// </summary>
 	/// <param name="perlinZoom">Perlin zoom.</param>
-	public void fillWithPerlin(float perlinZoom,MAPDATACHANNEL channel)
+	public void fillWithPerlin(float perlinZoom,int channel)
 	{
 		fillWithPerlin(0,0,perlinZoom, channel);
 	}
-
-	private void accesWithMdc(MAPDATACHANNEL channel,int x, int y,float value)
+	
+	protected void clampValues(int channel, float min, float max)
 	{
-		mapData.SetPixel(x,y,setChannel(channel,mapData.GetPixel(x,y),value));
-	}
-
-	Color setChannel(MAPDATACHANNEL channel,Color pixel,float newValue)
-	{
-		switch(channel)
+		float newValue = 0;
+		for(int y =0; y < length; y++)
 		{
-		case MAPDATACHANNEL.R:
-			return 	new Color(newValue,pixel.g,pixel.b,pixel.a);
-			break;
-		case MAPDATACHANNEL.G:
-			return 	new Color(pixel.r,newValue,pixel.b,pixel.a);
-			break;
-		case MAPDATACHANNEL.B:
-			return 	new Color(pixel.r,pixel.g,newValue,pixel.a);
-			break;		
-		case MAPDATACHANNEL.A:
-			return 	 new Color(pixel.r,pixel.g,pixel.b,newValue);
-			break;
-
+			for(int x =0; x < width; x++)
+			{
+				
+				newValue = _mapInfo[x,y,channel];
+				newValue = Mathf.Clamp(newValue,min,max);//clamp it
+				_mapInfo[x,y,channel] = newValue; //place the cmaped value back int the array
+			}
 		}
-		Debug.LogError("daraChannel error in" + this);
-		return Color.black;
 	}
-
-	protected float getChannel(MAPDATACHANNEL channel,Color yourColor)
-	{
-		switch(channel)
-		{
-		case MAPDATACHANNEL.R:
-			return yourColor.r;
-			break;
-		case MAPDATACHANNEL.G:
-			return yourColor.g;
-			break;
-		case MAPDATACHANNEL.B:
-			return yourColor.b;
-			break;		
-		case MAPDATACHANNEL.A:
-			return yourColor.a;
-			break;
-			
-		}
-		Debug.LogError("daraChannel error in" + this);
-		return 0f;
-	}
-
-
-	protected void clampValues(MAPDATACHANNEL channel, float min, float max)
-	{
-		Color[] mapColor = mapData.GetPixels();
-
-
-		float newValue =0;
-		for(int i =0; i < mapColor.Length; i++)
-		{
-			newValue = getChannel(channel,mapColor[i]);//get the value
-			newValue = Mathf.Clamp(newValue,min,max);//clamp it
-			mapColor[i] = setChannel(channel,mapColor[i],newValue);//place it back in the array
-		}
-
-		mapData.SetPixels(mapColor);
-	}
+	
 
 	public void clampChannelValues(clampPass instructions)
 	{
 		clampValues(instructions.channel,instructions.minClamp,instructions.maxClamp);
 	}
-
+	#endregion
+	
 }

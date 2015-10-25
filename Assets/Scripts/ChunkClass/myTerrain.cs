@@ -3,7 +3,7 @@ using System.Collections;
 [System.Serializable]
 public struct fillType
 {
-	public MAPDATACHANNEL channel;
+	public int channel;
 	public float zoomLevel;
 };
 
@@ -30,9 +30,9 @@ public class myTerrain : MonoBehaviour
 	protected ChunkData terrainMaps;
 	public terrainPasses passes;
 	public int size = 100;
-	void Start()
+	void Start()//more or less my componet system will update once i learn how to draw custom gui in the inspector
 	{
-		terrainMaps = new ChunkData(size);
+		terrainMaps = new ChunkData(size,size);
 
 		if(passes.fillAllrandomSeed.run)
 		{
@@ -47,7 +47,8 @@ public class myTerrain : MonoBehaviour
 		{
 			terrainMaps.fillWithPerlin(f.zoomLevel,f.channel);
 		}
-		gameObject.GetComponent<Renderer>().material.mainTexture = terrainMaps.mapCells;
+		//gameObject.GetComponent<Renderer>().material.SetTexture("_ParallaxMap",terrainMaps.displayTexture); //will allow paralax shaders to render the plane as if the flat quad was built acording to the heightmaps
+		gameObject.GetComponent<Renderer>().material.mainTexture = terrainMaps.displayTexture;
 	}
 
 }
