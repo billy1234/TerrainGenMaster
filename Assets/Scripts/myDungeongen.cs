@@ -121,26 +121,26 @@ public class myDungeongen : MonoBehaviour
 	{
 		switch(type)
 		{
-		case empty:
-			return spawn(emptyTile,position);
-			break;
-		case room:
-			if(Random.Range(0f,1f) < lootChance)
-			{	
-				spawn(loot[Random.Range(0,loot.Length)],position);
-			}
-			return spawn(roomTile,position);
-			break;
-		case roomCenter: //add an enemy
-			return spawn(enemySpawnerTile,position);
-			break;
-		case walkWay: 
-			return spawn(walkWayTile,position);
-			break;
-		default:
-			print (type);
-				return null;
-			break;
+			case empty:
+				return spawn(emptyTile,position);
+				break;
+			case room:
+				if(Random.Range(0f,1f) < lootChance)
+				{	
+					spawn(loot[Random.Range(0,loot.Length)],position);
+				}
+				return spawn(roomTile,position);
+				break;
+			case roomCenter: //add an enemy
+				return spawn(enemySpawnerTile,position);
+				break;
+			case walkWay: 
+				return spawn(walkWayTile,position);
+				break;
+			default:
+				print (type);
+					return null;
+				break;
 		}
 	}
 

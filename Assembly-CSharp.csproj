@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{BBCFB33C-C565-29D7-802E-6D0D43F03C1C}</ProjectGuid>
+	<ProjectGuid>{DAEAA89C-E0C6-1C6D-26E5-2530E9D03558}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\Voxel\Chunk.cs" />
      <Compile Include="Assets\Scripts\Voxel\MeshData.cs" />
      <Compile Include="Assets\Scripts\myDungeongen.cs" />
+     <Compile Include="Assets\noiseGenerator.cs" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
  <Reference Include="UnityEngine.UI">

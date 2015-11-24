@@ -108,8 +108,8 @@ public class ChunkData
 	#endregion
 	#region //internal variables
 	private clampSettings _edgeRound;
-	protected float[,,]  _mapInfo
-	{
+	protected float[,,]  _mapInfo;
+	/*{
 		get
 		{
 			return _mapInfo;
@@ -117,9 +117,10 @@ public class ChunkData
 		set
 		{
 			//we need to know the x and y of the value before we can set it then  we can use round edges
-			_mapInfo = value;
+			//_mapInfo = value;
 		}
 	}
+	*/
 	#endregion
 	#region //constructors
 	/// <summary>
