@@ -12,29 +12,36 @@ public enum TRIG_FUNCTION
 [System.Serializable]
 public struct waveInfo
 {
-	public float exponent;
+	public float frequency;
 	public float amplitude;
+	public float jitter;
 	public TRIG_FUNCTION trigFunction;
 }
 
 public class noiseGenerator : MonoBehaviour {
 	public int sizeSquared = 50;
 	public float[,] values;
-	//public AnimationCurve display;
 	public GameObject worldWave;
+	public Renderer display;
 
 	public waveInfo[] waves;
 
 	void showValues()
 	{
+		Texture2D displayTex = new Texture2D(sizeSquared,sizeSquared);
+		displayTex.filterMode = FilterMode.Point;
+		displayTex.wrapMode = TextureWrapMode.Clamp;
 		for(int x =0; x < sizeSquared; x ++)
 		{
 			for(int y =0; y < sizeSquared; y ++)
 			{
-			//display.AddKey((float)i/(float)values.Length,values[i]);
-			Instantiate( worldWave,transform.position + new Vector3(x,0,y) + Vector3.up * values[x,y],Quaternion.identity);
+				//Instantiate( worldWave,transform.position + new Vector3(x,0,y) + Vector3.up * values[x,y],Quaternion.identity);
+				//print(values[x,y]);
+				displayTex.SetPixel(x,y,new Color(values[x,y],values[x,y],values[x,y]));
 			}
 		}
+		displayTex.Apply();
+		display.material.mainTexture = displayTex;
 	}
 
 	void fillTable()
@@ -47,8 +54,9 @@ public class noiseGenerator : MonoBehaviour {
 			{
 				for(int i=0; i < waves.Length; i++)
 				{
-					values[x,y] += makeNoise(waves[i],x) + makeNoise(waves[i],y);
+					values[x,y] += ((makeNoise(waves[i],x) + makeNoise(waves[i],y)) + 1) /2; //normalizing the values beteen 0-1
 				}
+				//values[x,y] = values[x,y] / waves.Length;//more normalization
 			}
 		}
 	}
@@ -59,9 +67,10 @@ public class noiseGenerator : MonoBehaviour {
 		showValues();
 	}
 
-	float makeNoise(waveInfo wInfo,int step)
+	float makeNoise(waveInfo wInfo,float step)
 	{
-		float value = step * wInfo.exponent;
+		step = step + Random.Range(-wInfo.jitter,wInfo.jitter);//apply jitter
+		float value = step * wInfo.frequency;
 		switch(wInfo.trigFunction)
 		{
 		case TRIG_FUNCTION.COSINE:
@@ -74,7 +83,7 @@ public class noiseGenerator : MonoBehaviour {
 			value = Mathf.Tan(value);
 			break;
 		}
-		value *= wInfo.exponent;
+		value *= wInfo.frequency;
 		return value;
 	}
 }

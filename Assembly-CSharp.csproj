@@ -70,7 +70,7 @@
      <Compile Include="Assets\Scripts\Voxel\Chunk.cs" />
      <Compile Include="Assets\Scripts\Voxel\MeshData.cs" />
      <Compile Include="Assets\Scripts\myDungeongen.cs" />
-     <Compile Include="Assets\noiseGenerator.cs" />
+     <Compile Include="Assets\Scripts\noiseGenerator.cs" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
  <Reference Include="UnityEngine.UI">
