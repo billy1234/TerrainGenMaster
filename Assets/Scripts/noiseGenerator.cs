@@ -16,6 +16,8 @@ public struct waveInfo
 	public float amplitude;
 	public float jitter;
 	public TRIG_FUNCTION trigFunction;
+	[HideInInspector]
+	public float phase;
 }
 
 public class noiseGenerator : MonoBehaviour {
@@ -23,7 +25,6 @@ public class noiseGenerator : MonoBehaviour {
 	public float[,] values;
 	public GameObject worldWave;
 	public Renderer display;
-
 	public waveInfo[] waves;
 
 	void showValues()
@@ -31,6 +32,9 @@ public class noiseGenerator : MonoBehaviour {
 		Texture2D displayTex = new Texture2D(sizeSquared,sizeSquared);
 		displayTex.filterMode = FilterMode.Point;
 		displayTex.wrapMode = TextureWrapMode.Clamp;
+
+
+
 		for(int x =0; x < sizeSquared; x ++)
 		{
 			for(int y =0; y < sizeSquared; y ++)
@@ -43,20 +47,27 @@ public class noiseGenerator : MonoBehaviour {
 		displayTex.Apply();
 		display.material.mainTexture = displayTex;
 	}
+	void seedphases()
+	{
+		for(int i=0; i < waves.Length;i++)
+		{
+			waves[i].phase = Random.Range(0f, 2f*Mathf.PI);
+		}
+	}
 
 	void fillTable()
 	{
 		values = new float[sizeSquared,sizeSquared];
-
+		seedphases();
 		for(int x =0; x < sizeSquared; x ++)
 		{
 			for(int y =0; y < sizeSquared; y ++)
 			{
 				for(int i=0; i < waves.Length; i++)
 				{
-					values[x,y] += ((makeNoise(waves[i],x) + makeNoise(waves[i],y)) + 1) /2; //normalizing the values beteen 0-1
+					values[x,y] += ((makeNoise(waves[i],x) + makeNoise(waves[i],y + 3f)) + 1) /2; //normalizing the values beteen 0-1
 				}
-				//values[x,y] = values[x,y] / waves.Length;//more normalization
+				values[x,y] = values[x,y] / waves.Length;//more normalization
 			}
 		}
 	}
@@ -69,6 +80,7 @@ public class noiseGenerator : MonoBehaviour {
 
 	float makeNoise(waveInfo wInfo,float step)
 	{
+		step = step + wInfo.phase;
 		step = step + Random.Range(-wInfo.jitter,wInfo.jitter);//apply jitter
 		float value = step * wInfo.frequency;
 		switch(wInfo.trigFunction)

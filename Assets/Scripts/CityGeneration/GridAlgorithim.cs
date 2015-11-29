@@ -5,11 +5,13 @@ using System.Collections.Generic;
 public class GridAlgorithim : MonoBehaviour
 {
 	public List<City> cityDebug;
+	int size;
 	void Start ()
 	{
 		detectRegions(GetComponent<CityWorld> ().getPopMap ());
+		size = GetComponent<CityWorld> ().mapSize;
 	}
-
+	
 	void OnDrawGizmos()
 	{
 		if (Application.isPlaying && cityDebug.Count > 0) 
@@ -19,23 +21,23 @@ public class GridAlgorithim : MonoBehaviour
 				Gizmos.color = new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f));
 				foreach(Index x in c.cityCells)
 				{
-					Gizmos.DrawCube(new Vector3(x.x,0,x.y),Vector3.one);
+					Gizmos.DrawCube(new Vector3(x.x - size/2 ,0,x.y - size/2 ),Vector3.one);
 				}
 			}
 		}
 	}
-
+	
 	void detectRegions (float[,] popGrid)
 	{
 		List<City> myCitys = new List<City>();
 		List<Index> openCells = new List<Index> ();
-
+		
 		//initalize array
 		for (int y =0; y < popGrid.GetLength(1); y++)
 		{
 			for (int x =0; x < popGrid.GetLength(0); x++) 
 			{
-
+				
 				if (popGrid [x, y] > 0) 
 				{ //dont bother ading cells with 0 population
 					//print(popGrid [x, y]);
@@ -43,13 +45,15 @@ public class GridAlgorithim : MonoBehaviour
 				}
 			}
 		}
-
-
+		
+		
 		while (openCells.Count >0) 
 		{
 			addCell (ref myCitys, openCells[0], new Vector2 (popGrid.GetLength (0), popGrid.GetLength (1)));
-			Debug.Log("X: " + openCells[0].x +"Y:" + openCells[0].y);
+			//Debug.Log("X: " + openCells[0].x +"Y:" + openCells[0].y);
 			openCells.RemoveAt(0);//acts as the index for the loop
+			//yield return new WaitForSeconds(0.5f);
+			//cityDebug = myCitys;
 		}
 		cityDebug = myCitys;
 	}
@@ -70,17 +74,22 @@ public class GridAlgorithim : MonoBehaviour
 
 				for (int cityIndex =0; cityIndex < myCitys.Count; cityIndex++)
 				{
-					for (int cityCells =0; cityCells < myCitys[cityIndex].cityCells.Count; cityCells++)
+					for (int cityCell =0; cityCell < myCitys[cityIndex].cityCells.Count; cityCell++)
 					{
-						Index checkIndex = myCitys [cityIndex].cityCells[cityCells];
-						if (checkIndex.x == next.x && checkIndex.y == next.y) //if the neigboring cell is aleady in a city
+						Index checkIndex = myCitys [cityIndex].cityCells[cityCell];
+						if(currentCell.x ==24 && currentCell.y == 1)
+						{
+							print ("line");
+						}
+						if (checkIndex.x == next.x && checkIndex.y == next.y) //if the neigboring cell is aleady in a city 
 						{
 							//its in a city and the city is not already defined
 							if(!linkedCitys.Contains(cityIndex))
 							{
 								linkedCitys.Add (cityIndex);
+								hasNeigbor = true;
 							}
-							hasNeigbor = true;
+
 						}
 					}
 				}
@@ -94,7 +103,7 @@ public class GridAlgorithim : MonoBehaviour
 
 		if (!hasNeigbor)
 		{
-			print("this cell has no neigbor:  X:"+ currentCell.x +"Y: "+ currentCell.y);
+			//print("this cell has no neigbor:  X:"+ currentCell.x +"Y: "+ currentCell.y);
 			myCitys.Add (new City (currentCell));
 		}
 		else
@@ -106,21 +115,15 @@ public class GridAlgorithim : MonoBehaviour
 				tempCity.cityCells.AddRange(myCitys[cityRow].cityCells.ToArray());
 
 			}
-			for(int i =0; i < linkedCitys.Count; i++)
-			{
-				myCitys.RemoveAt(linkedCitys[i]);//destory the original linked city
-					for(int indexRow =i + 1; indexRow < linkedCitys.Count; indexRow++)
-					{
-						//print("index: "+index+"  linked count :"+linkedCitys.Count +" I:"+ i);
-						//print("linkedcitty: "+ linkedCitys[index]);
-						if(linkedCitys[indexRow] > linkedCitys[i])//if its past the one i just removed shift it down one
-						{
-							linkedCitys[indexRow] --;
-						}
 
-					}
-			}
+
+
+
+
+
+			destroyCitys(linkedCitys.ToArray(),ref myCitys);//sort the index aray
 			myCitys.Add(tempCity);
+
 			//sore all linked citys in a temp storage area
 
 			//make a new city with all the cells
@@ -135,11 +138,30 @@ public class GridAlgorithim : MonoBehaviour
 
 	}
 
+	void destroyCitys(int[] cityIndexes,ref List<City> cityArray)
+	{
+		for(int x=1; x <cityIndexes.Length;x++)
+		{
+			for(int i =1; i < cityIndexes.Length; i++) //sort to avoid the index pointing to the wrong element
+			{
+				if(cityIndexes[i -1] < cityIndexes[i])
+				{
+					int temp = cityIndexes[i];
+					cityIndexes[i] = cityIndexes[i -1];
+					cityIndexes[i -1] = temp;
+				}
+			}
+		}
+
+		for(int i =0; i < cityIndexes.Length; i++)
+		{
+			cityArray.RemoveAt(cityIndexes[i]);
+		}
+	}
+
 	Index getIndex (Index cell, Index direction, Vector2 arraySize)
 	{
-		Index newIndex  = new Index(cell.x,cell.y);
-		cell.x =  cell.x + 	direction.x;
-	 	cell.y = cell.y	 +  direction.y;
+		Index newIndex  = new Index(cell.x + direction.x,cell.y + direction.y);
 
 		newIndex.legal = (cell.x >= 0 && cell.x < (int)arraySize.x && cell.y >= 0 && cell.y < (int)arraySize.y) ;
 		return newIndex;
@@ -156,11 +178,11 @@ public class Index
 	public bool legal = true;
 	public static readonly Index[] directions = new Index[8] 
 	{
-		new Index (0, 1),//up
-		new Index (0, -1),//down
+		new Index (0, 1),//n
+		new Index (0, -1),//s (broken)
 
-		new Index (-1, 0),//left
-		new Index (1, 0),//right
+		new Index (-1, 0),//w
+		new Index (1, 0),//e
 
 		new Index (1, 1),//ne
 		new Index (-1, -1),//sw
@@ -187,5 +209,8 @@ public class City
 	{
 		cityCells.Add (firstSquare);
 	}
+
+
+
 }
 

@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum ROAD_Type
-{
-	HIGHWAY,STREET
-};
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
