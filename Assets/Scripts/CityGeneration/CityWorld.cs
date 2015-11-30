@@ -6,7 +6,7 @@ using System.Collections;
 [RequireComponent(typeof(MeshFilter))]
 public class CityWorld : MonoBehaviour 
 {
-	public Texture2D map; //red is pop, greem is vegetaion, and blue is heightmap
+	public Texture2D map; //red is pop, green is vegetaion, and blue is heightmap
 
 	public int mapSize =50;
 	public float perlinScale;
@@ -22,8 +22,11 @@ public class CityWorld : MonoBehaviour
 	public float populationReductionPerFlora;
 	public float heightScale;
 
+	public string seed;
+
 	void Start()
 	{
+		seedRng(seed);
 		buildMap();
 		errosionPass ();
 		populationGrowthPass ();
@@ -31,6 +34,14 @@ public class CityWorld : MonoBehaviour
 		displayAllMaps (viusalDisplay);
 		buildGround ();
 		GetComponent<Renderer> ().material.mainTexture = map;
+	}
+
+	void seedRng(string seed)
+	{
+		if(seed.Length != 0)
+		{
+			Random.seed = seed.GetHashCode();
+		}
 	}
 
 	public float[,] getPopMap()
@@ -49,7 +60,7 @@ public class CityWorld : MonoBehaviour
 	void buildGround()
 	{
 		PlaneBuilder pBuilder = new PlaneBuilder();
-		for (int x =0; x < mapSize -1; x++)
+		for (int x =0; x < mapSize -1; x++) //-1 as the bottom left of the quad is x/y but top left is x+1/y+1
 		{
 			for (int y =0; y < mapSize -1; y++) 
 			{
@@ -62,7 +73,7 @@ public class CityWorld : MonoBehaviour
 			
 			}
 		}
-		GetComponent<MeshFilter> ().mesh = pBuilder.compileMesh(true);
+		GetComponent<MeshFilter> ().mesh = pBuilder.compileMesh(true);//low polly map
 	}
 
 	Vector3 getheight(int x, int z)

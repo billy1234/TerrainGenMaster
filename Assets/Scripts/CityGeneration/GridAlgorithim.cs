@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class GridAlgorithim : MonoBehaviour
 {
-	public List<City> cityDebug;
+	List<City> cityDebug;
 	int size;
 	void Start ()
 	{

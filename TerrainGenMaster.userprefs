@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CityGeneration\CityWorld.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CityGeneration\HighResHeightMap.cs">
     <Files>
-      <File FileName="Assets\Scripts\CityGeneration\GridAlgorithim.cs" Line="166" Column="108" />
-      <File FileName="Assets\Scripts\CityGeneration\CityWorld.cs" Line="147" Column="2" />
+      <File FileName="Assets\Scripts\CityGeneration\CityWorld.cs" Line="67" Column="38" />
+      <File FileName="Assets\Scripts\CityGeneration\GridAlgorithim.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CityGeneration\HighResHeightMap.cs" Line="49" Column="45" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -11,7 +12,7 @@
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
               <Node name="CityGeneration" expanded="True">
-                <Node name="CityWorld.cs" selected="True" />
+                <Node name="HighResHeightMap.cs" selected="True" />
               </Node>
             </Node>
           </Node>
