@@ -4,100 +4,81 @@ using System.Collections;
 [RequireComponent(typeof(CityWorld))]
 public class HighResHeightMap : MonoBehaviour 
 {
-	HighResQuad[,] detailedHeightMap;
-	private CityWorld cityW;
-	public float quadResolution = 50;
+	float[,] detailedHeightMap = null; //stored as a connected array
+	private CityWorld cityW = null;
+	public int quadResolution = 50;
 
-	void getLowPolly()
+	public GameObject[] debug;
+
+
+	void Start()
+	{
+		getRefrences();
+		loadHighPolly();
+
+		debug[0].AddComponent<MeshFilter>().mesh = getHighPollyQuad(0,0);
+		debug[0].AddComponent<MeshRenderer>();
+		debug[1].AddComponent<MeshFilter>().mesh = getHighPollyQuad(1,0);
+		debug[1].AddComponent<MeshRenderer>();
+		debug[2].AddComponent<MeshFilter>().mesh = getHighPollyQuad(0,1);
+		debug[2].AddComponent<MeshRenderer>();
+		debug[3].AddComponent<MeshFilter>().mesh = getHighPollyQuad(1,1);
+		debug[3].AddComponent<MeshRenderer>();
+
+	}
+	void getRefrences()
 	{
 		cityW = GetComponent<CityWorld>();
-		detailedHeightMap = new HighResQuad[cityW.mapSize,cityW.mapSize];
+
 	}
-
-	void initalizeQuads()
+	void loadHighPolly()
 	{
-		for (int x =0; x < cityW.mapSize; x++) //-1 as the bottom left of the quad is x/y but top left is x+1/y+1
-		{
-			for (int y =0; y < cityW.mapSize;y++);
-			{
+		detailedHeightMap = new float[ cityW.mapSize *quadResolution,cityW.mapSize *quadResolution];
 
+		for (int x =0; x < cityW.mapSize * quadResolution; x++) //x represents x in THIS array
+		{
+			for (int y =0; y < cityW.mapSize * quadResolution; y++) 
+			{
+				int xCoord = x/quadResolution; //xcoord represents x in the old array
+				int yCoord = y/quadResolution;
+
+				detailedHeightMap[x,y] = cityW.getHeight(xCoord,yCoord).y; //needs to slowly go from each vert not sharp steps
 			}
 		}
 	}
+
+	Mesh getHighPollyQuad(int x, int y)
+	{
+		if(x < 0 || y < 0 || x > cityW.mapSize|| y > cityW.mapSize)
+			Debug.LogError("the quad specified at " + x +", "+ y+" can not be found");
+
+		x *= quadResolution;
+		y *= quadResolution;
+		PlaneBuilder plane = new PlaneBuilder();
+
+		for(int xIndex =0; xIndex < quadResolution -1; xIndex++)
+		{
+			for(int yIndex =0; yIndex < quadResolution -1; yIndex++)
+			{
+				 //detailedHeightMap[x + xIndex,y + yIndex];
+				addQuad(x + xIndex,y + yIndex, ref plane);
+			}
+		}
+		return plane.compileMesh();
+	}
+
+	void addQuad(int x, int y, ref PlaneBuilder pBuilder)
+	{
+		Vector3[] quadVerts = new Vector3[4]{getVert(x,y),getVert(x +1,y),getVert(x,y + 1),getVert(x + 1,y + 1)};
+		//print(getVert(x,y).y);
+		pBuilder.addQuad(quadVerts);
+	}
+
+	Vector3 getVert(int x, int y)
+	{
+		return new Vector3(((float)x + 0.5f)/ (float)quadResolution,detailedHeightMap[x,y],((float)y + 0.5f)/(float)quadResolution) ;
+	}
+	
 }
 
-public class HighResQuad
-{
-	public float[,] heights;
-								
-	public HighResQuad(float[,] lowPolly, int subDivisons)
-	{
-		if(lowPolly.GetLength(0) != 2 ||lowPolly.GetLength(1) != 2)
-			Debug.Log("error " + this + " was passed a height map != to a quad");
 
-		heights = lowPolly;
-
-		for(int i=0; i < subDivisons; i++)
-		{
-			subDivide();
-		}
-	}
-	public void subDivide() // ??????? how
-	{
-		float[,] oldHeights = heights;
-		float oldSizeX =  oldHeights.GetLength(0);
-		float oldSizeY =  oldHeights.GetLength(1);
-		float sizeX = oldSizeX *2;
-		float sizeY = oldSizeY *2;
-		heights = new float[sizeX,sizeY];
-
-		for(int y =0; y < oldSizeY; y += 2)
-		{
-			for(int x =0; x < oldSizeX; x += 2)
-			{
-				//add 4
-				heights[x		*2	,y 		*2] = oldHeights[x		,y		];//as is
-				heights[x+1	    *2	,y 		*2] = oldHeights[x		,y		];
-				heights[x  		*2	,y 	+1 	*2] = oldHeights[x		,y		];
-				heights[x+1 	*2	,y 	+1 	*2] = oldHeights[x		,y		];
-
-				heights[x		*2	,y 		*2] = oldHeights[x		,y		];//as is
-				heights[x+1	    *2	,y 		*2] = oldHeights[x+1 	,y		];
-				heights[x  		*2	,y 	+1 	*2] = oldHeights[x		,y + 1	];
-				heights[x+1 	*2	,y 	+1 	*2] = oldHeights[x +1	,y + 1	];
-
-				heights[x		*2	,y 		*2] = oldHeights[x		,y		];//as is
-				heights[x+1	    *2	,y 		*2] = oldHeights[x+1 	,y		];
-				heights[x  		*2	,y 	+1 	*2] = oldHeights[x		,y + 1	];
-				heights[x+1 	*2	,y 	+1 	*2] = oldHeights[x +1	,y + 1	];
-
-				heights[x		*2	,y 		*2] = oldHeights[x		,y		];//as is
-				heights[x+1	    *2	,y 		*2] = oldHeights[x+1 	,y		];
-				heights[x  		*2	,y 	+1 	*2] = oldHeights[x		,y + 1	];
-				heights[x+1 	*2	,y 	+1 	*2] = oldHeights[x +1	,y + 1	];
-			}
-		}
-	} 
-
-
-	public Mesh buildHighres()
-	{
-		PlaneBuilder pBuilder = new PlaneBuilder();
-		for (int x =0; x < heights.GetLength(0); x++) //-1 as the bottom left of the quad is x/y but top left is x+1/y+1
-		{
-			for (int y =0; y < heights.GetLength(0); y++) 
-			{
-				/*
-				Vector3[] verts = new Vector3[4];
-				verts[0] = heights[x,y];
-				verts[1] = heights[x +1,y];
-				verts[2] = heights[x,y +1];
-				verts[3] = heights[x +1,y +1];
-				pBuilder.addQuad(verts);
-				*/
-				
-			}
-		}
-		return pBuilder.compileMesh(true);// one high polly quad
-	}
-}

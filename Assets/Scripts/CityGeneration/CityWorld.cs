@@ -65,10 +65,10 @@ public class CityWorld : MonoBehaviour
 			for (int y =0; y < mapSize -1; y++) 
 			{
 				Vector3[] verts = new Vector3[4];
-				verts[0] = getheight(x,y);
-				verts[1] = getheight(x +1,y);
-				verts[2] = getheight(x,y +1);
-				verts[3] = getheight(x +1,y +1);
+				verts[0] = getHeight(x,y);
+				verts[1] = getHeight(x +1,y);
+				verts[2] = getHeight(x,y +1);
+				verts[3] = getHeight(x +1,y +1);
 				pBuilder.addQuad(verts);
 			
 			}
@@ -76,10 +76,10 @@ public class CityWorld : MonoBehaviour
 		GetComponent<MeshFilter> ().mesh = pBuilder.compileMesh(true);//low polly map
 	}
 
-	Vector3 getheight(int x, int z)
+	public Vector3 getHeight(int x, int z)
 	{
 	
-		return new Vector3 (x, map.GetPixel (x, z).b * heightScale, z) - new Vector3(mapSize/2,0,mapSize/2); //worth noting using the population causes the plane to look like moon craters
+		return new Vector3 (x, map.GetPixel ((int)x, (int)z).b * heightScale, z) - new Vector3(mapSize/2,0,mapSize/2); //worth noting using the population causes the plane to look like moon craters
 	}
 
 	void displayAllMaps(GameObject[] displayPlanes)

@@ -11,7 +11,8 @@ public class GridAlgorithim : MonoBehaviour
 		detectRegions(GetComponent<CityWorld> ().getPopMap ());
 		size = GetComponent<CityWorld> ().mapSize;
 	}
-	
+
+	/*
 	void OnDrawGizmos()
 	{
 		if (Application.isPlaying && cityDebug.Count > 0) 
@@ -26,6 +27,7 @@ public class GridAlgorithim : MonoBehaviour
 			}
 		}
 	}
+	*/
 	
 	void detectRegions (float[,] popGrid)
 	{
@@ -77,10 +79,6 @@ public class GridAlgorithim : MonoBehaviour
 					for (int cityCell =0; cityCell < myCitys[cityIndex].cityCells.Count; cityCell++)
 					{
 						Index checkIndex = myCitys [cityIndex].cityCells[cityCell];
-						if(currentCell.x ==24 && currentCell.y == 1)
-						{
-							print ("line");
-						}
 						if (checkIndex.x == next.x && checkIndex.y == next.y) //if the neigboring cell is aleady in a city 
 						{
 							//its in a city and the city is not already defined
