@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\CityGeneration\CityWorld.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\GridAlgorithim.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\HighResHeightMap.cs" />
+     <Compile Include="Assets\Scripts\CityGeneration\TerrainGen.cs" />
      <Compile Include="Assets\Scripts\CityGenerator.cs" />
      <Compile Include="Assets\Scripts\DungeonCrawlerIteration2\ChunkGenerator.cs" />
      <Compile Include="Assets\Scripts\DungeonCrawlerIteration2\TextureCompiler.cs" />

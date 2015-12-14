@@ -11,7 +11,6 @@ public class CityWorld : MonoBehaviour
 	public int mapSize =50;
 	public float perlinScale;
 	public GameObject[] viusalDisplay = new GameObject[3];
-	public Vector3[] road1;
 	[Range(0,5)]
 	public float errosionSoftness =4;
 	[Range(0,1)]
@@ -169,7 +168,7 @@ public class CityWorld : MonoBehaviour
 			for(int y =0; y < mapSize; y++)
 			{
 				float perlinValue1 = Mathf.PerlinNoise((seed1 + x) *perlinScale,(seed1 + y) *perlinScale);
-				float perlinValue2 = Mathf.PerlinNoise((seed2 + x) *perlinScale,(seed3+ y) *perlinScale);
+				float perlinValue2 = Mathf.PerlinNoise((seed2 + x) *perlinScale,(seed3 + y) *perlinScale);
 				float perlinValue3 = Mathf.PerlinNoise((seed3 + x) *perlinScale,(seed3 + y) *perlinScale);
 
 				mytex.SetPixel(x,y,new Color(perlinValue1,perlinValue2,perlinValue3));

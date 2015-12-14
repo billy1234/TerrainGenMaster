@@ -1,45 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CityGeneration\HighResHeightMap.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CityGeneration\TerrainGen.cs">
     <Files>
-      <File FileName="Assets\Scripts\CityGeneration\HighResHeightMap.cs" Line="37" Column="3" />
-      <File FileName="Assets\Scripts\CityGeneration\CityWorld.cs" Line="65" Column="29" />
-      <File FileName="Assets\Scripts\CityGeneration\GridAlgorithim.cs" Line="14" Column="1" />
+      <File FileName="Assets\Scripts\CityGeneration\TerrainGen.cs" Line="39" Column="53" />
+      <File FileName="Assets\Scripts\CityGeneration\CityWorld.cs" Line="176" Column="4" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Scripts" expanded="True">
-              <Node name="CityGeneration" expanded="True">
-                <Node name="HighResHeightMap.cs" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="ClassPad">
-        <State selected="True" />
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State>
-          <Value>next.x</Value>
-          <Value>checkIndex</Value>
-          <Value>currentCell</Value>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\user\Documents\TerrainGenMaster\Assets\Scripts\CityGeneration\HighResHeightMap.cs" line="45" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="84" offsetX="666" offsetY="1339" expression="checkIndex" liveUpdate="False" />
-    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="84" offsetX="881" offsetY="1335" expression="next" liveUpdate="False" />
-    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="61" offsetX="783" offsetY="1183" expression="currentCell" liveUpdate="False" />
-    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="89" offsetX="12" offsetY="1262" expression="linkedCitys" liveUpdate="False" />
-    <Watch file="Assets\Scripts\CityGeneration\GridAlgorithim.cs" line="71" offsetX="431" offsetY="1206" expression="Index.directions[i]" liveUpdate="False" />
-  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
