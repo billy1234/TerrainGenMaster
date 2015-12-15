@@ -25,7 +25,7 @@ public class PlaneBuilder
 
 
 
-	public Mesh compileMesh()
+	public virtual Mesh compileMesh()
 	{
 		Mesh myMesh  = new Mesh();
 		myMesh.name = "ProcedralMesh";
@@ -72,5 +72,57 @@ public class PlaneBuilder
 				uv.Add(new Vector2((float)x /length,(float)y/length));
 			}
 		}
+	}
+
+	public Mesh compileMesh(float subMeshdivideHeight)
+	{
+		uvMap();
+		Mesh myMesh  = new Mesh();
+		myMesh.name = "ProcedralMesh";
+		if(verts.Count == 0 || tris.Count == 0)
+		{
+			Debug.LogError("sorry ether tris or verts are empty"+ this);
+		}
+		myMesh.vertices = verts.ToArray();
+		splitTris(subMeshdivideHeight, ref myMesh);
+		if (uv.Count > 0)
+		{
+			myMesh.uv = uv.ToArray ();
+		}
+		myMesh.RecalculateNormals();
+		myMesh.RecalculateBounds();
+		return myMesh;
+	}
+	
+	void splitTris(float splitHeight, ref Mesh myMesh)
+	{
+		List<int> tris1 = new List<int>(myMesh.vertices.Length);
+		List<int> tris2 = new List<int>(myMesh.vertices.Length);
+		
+		for(int i=0; i < tris.Count; i = i + 3)
+		{
+			if(averageHeight(verts[tris[i]],verts[tris[i + 1]],verts[tris[i + 2]]) > splitHeight)
+			{
+				tris1.Add(tris[i	]);
+				tris1.Add(tris[i + 1]);
+				tris1.Add(tris[i + 2]);
+			}
+			else
+			{
+				tris2.Add(tris[i	]);
+				tris2.Add(tris[i + 1]);
+				tris2.Add(tris[i + 2]);
+			}
+		}
+		myMesh.subMeshCount = 2;
+		//Debug.Log(tris1.Count+"  "+tris2.Count);
+		myMesh.SetTriangles(tris1.ToArray(),0);
+		myMesh.SetTriangles(tris2.ToArray(),1);
+	}
+	
+	float averageHeight(Vector3 vert1, Vector3 vert2, Vector3 vert3)
+	{
+		float sum = vert1.y +  vert2.y +  vert3.y;
+		return sum/3;
 	}
 }

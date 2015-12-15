@@ -21,16 +21,23 @@ public class TerrainGen : MonoBehaviour
 	public Texture2D map; //red is pop, green is vegetaion, and blue is heightmap
 	
 	public int mapSize =50;
-	public float perlinScale = 0.14f;
+	public float heightPerlinScale = 0.14f;
+	public float populationPerlinScale = 0.14f;
+	public float vegetationPerlinScale = 0.14f;
 	public GameObject[] viusalDisplay = new GameObject[3];
 	[Range(0,5)]
 	public float errosionSoftness =4f;
 	[Range(0,1)]
-	public float minPopHeight = 0.5f;
+	public float minPopHeight = 0.3f;
+	[Range(0,1)]
+	public float maxPopHeight = 0.6f;
 	[Range(0,0.3f)]
 	public float watterClamp = 0.5f;
 	[Range(0,2)]
 	public float populationReductionPerFlora = 0.5f;
+	[Range(0,1)]
+	public float whiteMix =0.1f;
+
 	public float heightScale =1f;
 	
 	public string seed;
@@ -39,7 +46,7 @@ public class TerrainGen : MonoBehaviour
 	private System.Random myRng = new System.Random(); 
 	void Start()
 	{
-		seedRng(seed);
+		seedMyRng(seed);
 		buildMap();
 		
 		displayAllMaps (viusalDisplay);
@@ -47,15 +54,15 @@ public class TerrainGen : MonoBehaviour
 		GetComponent<Renderer> ().material.mainTexture = map;
 	}
 	
-	void seedRng(string seed)
+	void seedMyRng(string seed)
 	{
 		if(seed.Length != 0)
 		{
 			myRng =  new System.Random(seed.GetHashCode());
 		}
-		mapSeeds.veg = (float)myRng.NextDouble() * 50f;
-		mapSeeds.pop = (float)myRng.NextDouble() * 50f;
-		mapSeeds.height = (float)myRng.NextDouble() * 50f;
+		mapSeeds.veg = (float)myRng.NextDouble() * 100f;
+		mapSeeds.pop = (float)myRng.NextDouble() * 100f;
+		mapSeeds.height = (float)myRng.NextDouble() * 100f;
 
 		//print(mapSeeds.veg+"  "+mapSeeds.pop+"  "+mapSeeds.height);
 	}
@@ -89,7 +96,8 @@ public class TerrainGen : MonoBehaviour
 				
 			}
 		}
-		GetComponent<MeshFilter> ().mesh = pBuilder.compileMesh(true);//low polly map
+		GetComponent<MeshFilter> ().mesh = pBuilder.compileMesh(watterClamp * (heightScale + 1));//low polly map
+		//print(watterClamp * heightScale);
 	}
 	
 	public Vector3 getHeight(int x, int z)
@@ -133,11 +141,11 @@ public class TerrainGen : MonoBehaviour
 	
 	void buildMap()
 	{
-		map = makePerlin();
+		map = fillMapTexture();
 		
 	}
 	
-	Texture2D makePerlin()
+	Texture2D fillMapTexture()
 	{
 		Texture2D mytex = new Texture2D(mapSize,mapSize);
 		mytex.filterMode = FilterMode.Point;
@@ -151,6 +159,7 @@ public class TerrainGen : MonoBehaviour
 			{
 				cellValues = getMapCell(x,y);
 				mytex.SetPixel(x,y,new Color(cellValues.population,cellValues.vegetation,cellValues.height));
+				//print(cellValues.population);
 			}
 		}
 		mytex.Apply ();
@@ -159,11 +168,25 @@ public class TerrainGen : MonoBehaviour
 
 	mapCell getMapCell(float x, float z) //will scan through all feilds that will determine height values and return a normalizewd height value between 0 - 1
 	{
-		float vegDensity = getPerlin(x,z,mapSeeds.veg); //the base perlin vales prior to modification based on one another
-		float popDensity = getPerlin(x,z,mapSeeds.pop);
-		float height = getPerlin(x,z,mapSeeds.height);
+		float vegDensity = getPerlin(x,z,mapSeeds.veg,vegetationPerlinScale); //the base perlin vales prior to modification based on one another
+		float popDensity = getPerlin(x,z,mapSeeds.pop,populationPerlinScale);
+		float height = getPerlin(x,z,mapSeeds.height,heightPerlinScale);
 
 		height -= (1-vegDensity) / errosionSoftness;
+
+
+		//pop growth
+		popDensity -= vegDensity/populationReductionPerFlora; //populations is less comon in heavilty vegetated areas
+
+
+		//print(vegDensity+" "+vegDensity+" "+popDensity);
+		height = ((float)getWhiteNoiseAt(x,z) * whiteMix + height) /(1 + whiteMix);
+
+
+		if(height < minPopHeight || height > maxPopHeight) //areas to close to the ocean
+		{
+			popDensity =0;
+		}
 		//flatens world at sea level
 		if(height < watterClamp)
 		{
@@ -173,26 +196,34 @@ public class TerrainGen : MonoBehaviour
 		}
 
 
-		//pop growth
-		popDensity -= vegDensity/populationReductionPerFlora; //populations is less comon in heavilty vegeated areas
-
-		if(height < minPopHeight) //areas to close to the ocean
-		{
-			popDensity =0;
-		}
-		//print(vegDensity+" "+vegDensity+" "+popDensity);
-
 		return new mapCell(height,vegDensity,popDensity);
 	}
 
 
 
 	
-	float getPerlin(float x, float y, float seed)
+	float getPerlin(float x, float y, float seed,float perlinScale)
 	{
 		return Mathf.PerlinNoise((x + seed) *perlinScale,(y + seed) *perlinScale);
 	}
-	
+
+	float getWhiteNoiseAt(float x, float y)
+	{
+		//will give the same number everytime the coordinate is input
+		seedMyRng((int)(x * mapSize+ y));
+		return (float)myRng.NextDouble();
+	}
+
+	/// <summary>
+	/// Seeds the rng class by instancing it
+	/// </summary>
+	/// <param name="seed">Seed.</param>
+	void seedMyRng(int seed)
+	{
+		//overly expensive look for a new random class tht can be better seeded in the future
+		myRng = new System.Random(seed);
+	}
+
 }
 
 public class mapCell //quick storage class for map information

@@ -72,7 +72,7 @@ public class CityWorld : MonoBehaviour
 			
 			}
 		}
-		GetComponent<MeshFilter> ().mesh = pBuilder.compileMesh(true);//low polly map
+		GetComponent<MeshFilter> ().mesh = pBuilder.compileMesh();//low polly map
 	}
 
 	public Vector3 getHeight(int x, int z)

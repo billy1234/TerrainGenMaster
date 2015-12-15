@@ -8,8 +8,8 @@ public class GridAlgorithim : MonoBehaviour
 	int size;
 	void Start ()
 	{
-		detectRegions(GetComponent<CityWorld> ().getPopMap ());
-		size = GetComponent<CityWorld> ().mapSize;
+		detectRegions(GetComponent<TerrainGen> ().getPopMap ());
+		size = GetComponent<TerrainGen> ().mapSize;
 	}
 
 	/*
@@ -27,7 +27,8 @@ public class GridAlgorithim : MonoBehaviour
 			}
 		}
 	}
-	*/
+*/
+
 	
 	void detectRegions (float[,] popGrid)
 	{
