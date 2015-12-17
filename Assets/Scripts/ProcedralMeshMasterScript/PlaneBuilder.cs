@@ -61,15 +61,16 @@ public class PlaneBuilder
 			for (int y =0; y < length; y++) 
 			{
 
-				/*uv.Add(new Vector2((float)x /length,(float)y/length));
+				uv.Add(new Vector2((float)x /length,(float)y/length));
 				uv.Add (new Vector2(((float)x +1)/length,(float)y/length));
 				uv.Add( new Vector2((float)x/length,((float)y + 1)/length));
 				uv.Add (new Vector2(((float)x +1)/length,((float)y +1)/length));
+				/*
+				uv.Add(new Vector2((float)x /length,(float)y/length));
+				uv.Add(new Vector2((float)x /length,(float)y/length));
+				uv.Add(new Vector2((float)x /length,(float)y/length));
+				uv.Add(new Vector2((float)x /length,(float)y/length));
 				*/
-				uv.Add(new Vector2((float)x /length,(float)y/length));
-				uv.Add(new Vector2((float)x /length,(float)y/length));
-				uv.Add(new Vector2((float)x /length,(float)y/length));
-				uv.Add(new Vector2((float)x /length,(float)y/length));
 			}
 		}
 	}

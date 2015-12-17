@@ -82,31 +82,38 @@ public class TerrainGen : MonoBehaviour
 	
 	void buildGround()
 	{
-		PlaneBuilder pBuilder = new PlaneBuilder();
-		for (int x =0; x < mapSize -1; x++) //-1 as the bottom left of the quad is x/y but top left is x+1/y+1
+		TerrainGenMeshBuilder pBuilder = new TerrainGenMeshBuilder();
+		for (int x =0; x < mapSize; x++) //-1 as the bottom left of the quad is x/y but top left is x+1/y+1
 		{
-			for (int y =0; y < mapSize -1; y++) 
+			for (int y =0; y < mapSize; y++) 
 			{
 				Vector3[] verts = new Vector3[4];
 				verts[0] = getHeight(x,y);
 				verts[1] = getHeight(x +1,y);
 				verts[2] = getHeight(x,y +1);
 				verts[3] = getHeight(x +1,y +1);
-				pBuilder.addQuad(verts);
+				if(getMapCell(x,y).isWatter)
+				{
+					pBuilder.addQuad(verts,1);
+				}
+				else
+				{
+					pBuilder.addQuad(verts,0);
+				}
 				
 			}
 		}
-		GetComponent<MeshFilter> ().mesh = pBuilder.compileMesh(watterClamp * (heightScale + 1));//low polly map
+		GetComponent<MeshFilter> ().mesh = pBuilder.compileMesh();//low polly map
 		//print(watterClamp * heightScale);
 	}
 	
-	public Vector3 getHeight(int x, int z)
+	Vector3 getHeight(int x, int z)
 	{
 		
-		return new Vector3 (x, map.GetPixel ((int)x, (int)z).b * heightScale, z) - new Vector3(mapSize/2,0,mapSize/2); //worth noting using the population causes the plane to look like moon craters
+		return new Vector3 (x, map.GetPixel ((int)x, (int)z).b * heightScale, z) - new Vector3(mapSize/2,0,mapSize/2); 
 	}
-
 	
+		
 	void displayAllMaps(GameObject[] displayPlanes)
 	{
 		Texture2D pop = new Texture2D( mapSize, mapSize);
@@ -135,9 +142,6 @@ public class TerrainGen : MonoBehaviour
 		displayPlanes [1].GetComponent<Renderer> ().material.mainTexture = veg ;
 		displayPlanes [2].GetComponent<Renderer> ().material.mainTexture = height ;
 	}
-
-	
-	
 	
 	void buildMap()
 	{
@@ -171,6 +175,7 @@ public class TerrainGen : MonoBehaviour
 		float vegDensity = getPerlin(x,z,mapSeeds.veg,vegetationPerlinScale); //the base perlin vales prior to modification based on one another
 		float popDensity = getPerlin(x,z,mapSeeds.pop,populationPerlinScale);
 		float height = getPerlin(x,z,mapSeeds.height,heightPerlinScale);
+		bool isOcean = false;
 
 		height -= (1-vegDensity) / errosionSoftness;
 
@@ -183,24 +188,26 @@ public class TerrainGen : MonoBehaviour
 		height = ((float)getWhiteNoiseAt(x,z) * whiteMix + height) /(1 + whiteMix);
 
 
-		if(height < minPopHeight || height > maxPopHeight) //areas to close to the ocean
+		if(height < minPopHeight || height > maxPopHeight) //areas to close to the ocean or to high up for population
 		{
 			popDensity =0;
 		}
+
+
+
 		//flatens world at sea level
 		if(height < watterClamp)
 		{
+			isOcean = true;
 			height = watterClamp; //pushes all values to enough to a uniform sea level
 			vegDensity =0; // no sea life
 			popDensity =0; //noone lives in the ocean
 		}
 
-
-		return new mapCell(height,vegDensity,popDensity);
+		mapCell cell =new mapCell(height,vegDensity,popDensity);
+		cell.isWatter = isOcean;
+		return cell;
 	}
-
-
-
 	
 	float getPerlin(float x, float y, float seed,float perlinScale)
 	{
@@ -229,6 +236,7 @@ public class TerrainGen : MonoBehaviour
 public class mapCell //quick storage class for map information
 {
 	private float[] values = new float[3]; // 0 is height 1 is veg 2 is population
+	public bool isWatter = false;
 
 	public float height 
 	{

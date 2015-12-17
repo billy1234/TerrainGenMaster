@@ -2,22 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GridAlgorithim : MonoBehaviour
+public class CityDetector : MonoBehaviour
 {
-	List<City> cityDebug;
-	int size;
+	List<City> cityList;
+	/*
 	void Start ()
 	{
-		detectRegions(GetComponent<TerrainGen> ().getPopMap ());
-		size = GetComponent<TerrainGen> ().mapSize;
+		cityList.AddRange(detectRegions(GetComponent<TerrainGen> ().getPopMap ()));
 	}
+	*/
 
 	/*
 	void OnDrawGizmos()
 	{
 		if (Application.isPlaying && cityDebug.Count > 0) 
 		{
-			foreach(City c in cityDebug)
+			foreach(City c in cityList)
 			{
 				Gizmos.color = new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f));
 				foreach(Index x in c.cityCells)
@@ -28,9 +28,12 @@ public class GridAlgorithim : MonoBehaviour
 		}
 	}
 */
-
+	public static City[] getCityCells(TerrainGen terrain)
+	{
+		return detectRegions(terrain.getPopMap());
+	}
 	
-	void detectRegions (float[,] popGrid)
+	private static City[] detectRegions (float[,] popGrid)
 	{
 		List<City> myCitys = new List<City>();
 		List<Index> openCells = new List<Index> ();
@@ -58,10 +61,10 @@ public class GridAlgorithim : MonoBehaviour
 			//yield return new WaitForSeconds(0.5f);
 			//cityDebug = myCitys;
 		}
-		cityDebug = myCitys;
+		return myCitys.ToArray();
 	}
 
-	void addCell (ref List<City> myCitys, Index currentCell, Vector2 arraySize)
+	static void addCell (ref List<City> myCitys, Index currentCell, Vector2 arraySize)
 	{
 		/*
 		 * bug:
@@ -137,7 +140,7 @@ public class GridAlgorithim : MonoBehaviour
 
 	}
 
-	void destroyCitys(int[] cityIndexes,ref List<City> cityArray)
+	static void destroyCitys(int[] cityIndexes,ref List<City> cityArray)
 	{
 		for(int x=1; x <cityIndexes.Length;x++)
 		{
@@ -158,7 +161,7 @@ public class GridAlgorithim : MonoBehaviour
 		}
 	}
 
-	Index getIndex (Index cell, Index direction, Vector2 arraySize)
+	static Index getIndex (Index cell, Index direction, Vector2 arraySize)
 	{
 		Index newIndex  = new Index(cell.x + direction.x,cell.y + direction.y);
 

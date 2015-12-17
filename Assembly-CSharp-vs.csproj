@@ -49,10 +49,11 @@
      <Compile Include="Assets\Scripts\Cell.cs" />
      <Compile Include="Assets\Scripts\ChunkClass\ChunkData.cs" />
      <Compile Include="Assets\Scripts\ChunkClass\myTerrain.cs" />
-     <Compile Include="Assets\Scripts\CityGeneration\CityWorld.cs" />
-     <Compile Include="Assets\Scripts\CityGeneration\GridAlgorithim.cs" />
+     <Compile Include="Assets\Scripts\CityGeneration\CityDetector.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\HighResHeightMap.cs" />
+     <Compile Include="Assets\Scripts\CityGeneration\Old\CityWorld.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\TerrainGen.cs" />
+     <Compile Include="Assets\Scripts\CityGeneration\TownGenerator.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\WatterScroll.cs" />
      <Compile Include="Assets\Scripts\CityGenerator.cs" />
      <Compile Include="Assets\Scripts\DungeonCrawlerIteration2\ChunkGenerator.cs" />
@@ -65,6 +66,7 @@
      <Compile Include="Assets\Scripts\PathfindingAgent.cs" />
      <Compile Include="Assets\Scripts\PlannetGeneration\Plannet.cs" />
      <Compile Include="Assets\Scripts\ProcedralMeshMasterScript\PlaneBuilder.cs" />
+     <Compile Include="Assets\Scripts\ProcedralMeshMasterScript\TerrainGenMeshBuilder.cs" />
      <Compile Include="Assets\Scripts\SuperFormula.cs" />
      <Compile Include="Assets\Scripts\SuperFormulaPollyGon.cs" />
      <Compile Include="Assets\Scripts\SuperFormulaTree.cs" />

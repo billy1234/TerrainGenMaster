@@ -1,11 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CityGeneration\WatterScroll.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CityGeneration\CityDetector.cs">
     <Files>
-      <File FileName="Assets\Scripts\CityGeneration\TerrainGen.cs" Line="109" Column="2" />
-      <File FileName="Assets\Scripts\CityGeneration\GridAlgorithim.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ProcedralMeshMasterScript\PlaneBuilder.cs" Line="113" Column="28" />
-      <File FileName="Assets\Scripts\CityGeneration\WatterScroll.cs" Line="14" Column="2" />
+      <File FileName="Assets\Scripts\CityGeneration\TownGenerator.cs" Line="8" Column="20" />
+      <File FileName="Assets\Scripts\CityGeneration\TerrainGen.cs" Line="96" Column="6" />
+      <File FileName="Assets\Scripts\CityGeneration\WatterScroll.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CityGeneration\CityDetector.cs" Line="32" Column="3" />
+      <File FileName="Assets\Scripts\ProcedralMeshMasterScript\TerrainGenMeshBuilder.cs" Line="79" Column="34" />
+      <File FileName="Assets\Scripts\CityGeneration\HighResHeightMap.cs" Line="61" Column="60" />
+      <File FileName="Assets\Scripts\ProcedralMeshMasterScript\PlaneBuilder.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CityGeneration\Old\CityWorld.cs" Line="54" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
