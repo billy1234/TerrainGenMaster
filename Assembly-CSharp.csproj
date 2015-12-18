@@ -54,7 +54,6 @@
      <Compile Include="Assets\Scripts\CityGeneration\Old\CityWorld.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\TerrainGen.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\TownGenerator.cs" />
-     <Compile Include="Assets\Scripts\CityGeneration\WatterScroll.cs" />
      <Compile Include="Assets\Scripts\CityGenerator.cs" />
      <Compile Include="Assets\Scripts\DungeonCrawlerIteration2\ChunkGenerator.cs" />
      <Compile Include="Assets\Scripts\DungeonCrawlerIteration2\TextureCompiler.cs" />

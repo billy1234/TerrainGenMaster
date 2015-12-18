@@ -170,7 +170,7 @@ public class TerrainGen : MonoBehaviour
 		return mytex;
 	}
 
-	mapCell getMapCell(float x, float z) //will scan through all feilds that will determine height values and return a normalizewd height value between 0 - 1
+	public mapCell getMapCell(float x, float z) //will scan through all feilds that will determine height values and return a normalizewd height value between 0 - 1
 	{
 		float vegDensity = getPerlin(x,z,mapSeeds.veg,vegetationPerlinScale); //the base perlin vales prior to modification based on one another
 		float popDensity = getPerlin(x,z,mapSeeds.pop,populationPerlinScale);

@@ -74,7 +74,7 @@ public class CityDetector : MonoBehaviour
 		List<int> linkedCitys = new List<int> ();
 		for (int i =0; i < Index.directions.Length; i++)
 		{
-			Index next = getIndex (currentCell, Index.directions[i], arraySize);
+			Index next = Index.getIndex (currentCell, Index.directions[i], arraySize);
 			if (next.legal) 
 			{
 
@@ -161,13 +161,7 @@ public class CityDetector : MonoBehaviour
 		}
 	}
 
-	static Index getIndex (Index cell, Index direction, Vector2 arraySize)
-	{
-		Index newIndex  = new Index(cell.x + direction.x,cell.y + direction.y);
 
-		newIndex.legal = (cell.x >= 0 && cell.x < (int)arraySize.x && cell.y >= 0 && cell.y < (int)arraySize.y) ;
-		return newIndex;
-	}
 
 
 }
@@ -200,9 +194,16 @@ public class Index
 		y = _y;
 		legal = true;
 	}
+	public static Index getIndex (Index cell, Index direction, Vector2 arraySize)
+	{
+		Index newIndex  = new Index(cell.x + direction.x,cell.y + direction.y);
+		newIndex.legal = (newIndex.x >= 0 && newIndex.x < (int)arraySize.x && newIndex.y >= 0 && newIndex.y < (int)arraySize.y) ;
+		return newIndex;
+	}
+
 }
 
-[System.Serializable]
+//[System.Serializable]
 public class City
 {
 	public List<Index> cityCells = new List<Index> ();
