@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BuildingGeneration\FloorPlans.cs" />
      <Compile Include="Assets\Scripts\Cell.cs" />
      <Compile Include="Assets\Scripts\ChunkClass\ChunkData.cs" />
      <Compile Include="Assets\Scripts\ChunkClass\myTerrain.cs" />
@@ -62,6 +63,7 @@
      <Compile Include="Assets\Scripts\LSystem.cs" />
      <Compile Include="Assets\Scripts\LSystemTree.cs" />
      <Compile Include="Assets\Scripts\LSystemWalker.cs" />
+     <Compile Include="Assets\Scripts\NoiseGeneration\PerlinToTexture.cs" />
      <Compile Include="Assets\Scripts\PathfindingAgent.cs" />
      <Compile Include="Assets\Scripts\PlannetGeneration\Plannet.cs" />
      <Compile Include="Assets\Scripts\ProcedralMeshMasterScript\PlaneBuilder.cs" />
@@ -69,6 +71,7 @@
      <Compile Include="Assets\Scripts\SuperFormula.cs" />
      <Compile Include="Assets\Scripts\SuperFormulaPollyGon.cs" />
      <Compile Include="Assets\Scripts\SuperFormulaTree.cs" />
+     <Compile Include="Assets\Scripts\TerrainAddons\UnityTerrainExtention.cs" />
      <Compile Include="Assets\Scripts\Voxel\Block.cs" />
      <Compile Include="Assets\Scripts\Voxel\BlockAir.cs" />
      <Compile Include="Assets\Scripts\Voxel\Chunk.cs" />

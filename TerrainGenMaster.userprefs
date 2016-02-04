@@ -1,19 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CityGeneration\CityDetector.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BuildingGeneration\FloorPlans.cs">
     <Files>
-      <File FileName="TerrainGenMaster.sln" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CityGeneration\CityDetector.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CityGeneration\TownGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CityGeneration\TerrainGen.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ProcedralMeshMasterScript\TerrainGenMeshBuilder.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CityGeneration\HighResHeightMap.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ProcedralMeshMasterScript\PlaneBuilder.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CityGeneration\Old\CityWorld.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BuildingGeneration\FloorPlans.cs" Line="80" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="Assets\Scripts\BuildingGeneration\FloorPlans.cs" line="85" offsetX="769" offsetY="1386" expression="snakeDiretion" liveUpdate="False" />
+    <Watch file="Assets\Scripts\BuildingGeneration\FloorPlans.cs" line="93" offsetX="795" offsetY="1463" expression="snakeX" liveUpdate="False" />
+    <Watch file="Assets\Scripts\BuildingGeneration\FloorPlans.cs" line="94" offsetX="936" offsetY="1462" expression="snakeY" liveUpdate="False" />
+    <Watch file="Assets\Scripts\BuildingGeneration\FloorPlans.cs" line="95" offsetX="937" offsetY="1508" expression="sizeY" liveUpdate="False" />
+    <Watch file="Assets\Scripts\BuildingGeneration\FloorPlans.cs" line="95" offsetX="800" offsetY="1503" expression="sizeX" liveUpdate="False" />
+    <Watch file="Assets\Scripts\BuildingGeneration\FloorPlans.cs" line="92" offsetX="1053" offsetY="1374" expression="snakeMinWalk" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>
