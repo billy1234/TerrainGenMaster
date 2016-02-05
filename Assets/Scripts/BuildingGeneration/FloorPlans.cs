@@ -3,18 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 public enum FLOORTYPE
 {
-	BASIC,HALLWAY,STAIRS
+	EMPTY,BASIC,HALLWAY,STAIRS,
 };
 public class FloorPlans : MonoBehaviour
 {
-	public List<Vector2> points;
-	public List<int> walls;
+	//public List<Vector2> points;
+	//public List<int> walls;
+
 	public structureGridMaker s;
+
 	void Start()
 	{
 		//addSquare(new Vector2[4]{new Vector2(0,0),new Vector2(0,1),new Vector2(1,1),new Vector2(1,0)});
 		s = new structureGridMaker(10,8);
 	}
+	/*
+	
 	void draw()
 	{
 		Gizmos.color = Color.blue;
@@ -40,13 +44,13 @@ public class FloorPlans : MonoBehaviour
 		walls.AddRange(new int[8]{walls.Count ,walls.Count + 1,walls.Count + 1,walls.Count + 2,walls.Count + 2,walls.Count + 3,walls.Count + 3,walls.Count});
 		points.AddRange(newPoints);
 	}
-
+	*/
 	void OnDrawGizmos()
 	{
 		if(Application.isPlaying)
 		{
 			s.draw();
-			draw();
+			//draw();
 		}
 	}
 
@@ -64,26 +68,30 @@ public class structureGridMaker
 	public FLOORTYPE[,] floorValues = null;
 	int sizeX =0;
 	int sizeY =0;
-	readonly int minHallwaySpan =3;
-	readonly int maxHallwaySpan = 5;
+	//normalizedd bettween 0-1 that represent percentages
+	readonly float minHallwaySpan =0.3f;
+	readonly float maxHallwaySpan = 0.7f;
+	readonly float minRoomSize = 0.3f;
+	readonly float maxRoomSize = 0.5f;
 	public structureGridMaker(int _sizeX, int _sizeY)
 	{
 		this.floorValues = new FLOORTYPE[_sizeX,_sizeY];
 		sizeX = _sizeX;
 		sizeY = _sizeY;
-			for(int y =0; y < sizeY; y++)
+		for(int y =0; y < sizeY; y++)
+		{
+			for(int x =0; x < sizeX; x++)
 			{
-				for(int x =0; x < sizeX; x++)
-				{
-					floorValues[x,y] = FLOORTYPE.BASIC;
-				}
+				floorValues[x,y] = FLOORTYPE.EMPTY;
 			}
-		generateValues();
+		}
+		generateHallway();
+		addRooms();
 	}
 
-	void generateValues()
+	void generateHallway()
 	{
-		int snakeMinWalk = minHallwaySpan;
+		int snakeMinWalk = Mathf.RoundToInt(minHallwaySpan * sizeY);
 		Vector2 snakeDiretion = Vector2.up;
 		int snakeX = floorValues.GetLength(0) /2;
 		int snakeY =0;
@@ -99,6 +107,135 @@ public class structureGridMaker
 				hitEdge = true;
 			}
 		}
+	}
+
+	void addRooms()
+	{
+		List<room> houseRooms = new List<room>();
+	
+		int indexX =0;
+		int indexY =0;
+
+		int minSize = Mathf.RoundToInt(minRoomSize * (sizeX+ sizeY)/2f);
+
+		
+		bool[,] legalStarts = new bool[sizeX,sizeY];
+		#region initalize array
+		for(int y =0; y < sizeY; y++)
+		{
+			for(int x =0; x < sizeX; x++)
+			{
+				if(floorValues[x,y] == FLOORTYPE.HALLWAY)
+				{
+					legalStarts[x,y] = false;
+				}
+				else
+				{
+					legalStarts[x,y] = true;
+				}
+			}
+		}
+		#endregion
+
+		bool finished = false;
+
+		while(finished == false)
+		{
+			int maxX = Mathf.RoundToInt(maxRoomSize * (sizeX+ sizeY)/2f);
+			int maxY = Mathf.RoundToInt(maxRoomSize * (sizeX+ sizeY)/2f);
+			getBotomLeftMost(ref indexX,ref indexY,ref legalStarts,ref finished,ref maxX,ref maxY);
+			room roomToAdd =new room(indexX,indexY,Random.Range(minSize,maxX),Random.Range(minSize,maxY));
+			addRoomToArray(roomToAdd);
+			houseRooms.Add(roomToAdd);
+			//finished = true;
+		}
+
+
+
+		
+	}
+	void addRoomToArray(room r)
+	{
+		for(int y =0; y < r.sizeY; y++)
+		{
+			for(int x =0; x < r.sizeX; x++)
+			{
+				floorValues[r.x + x,r.y + y] = FLOORTYPE.BASIC;
+			}
+		}
+	}
+	void getBotomLeftMost(ref int indexX, ref int indexY, ref bool[,] legalArray,ref bool finished,ref int maxX,ref int maxY)
+	{
+		for(int y =0; y < sizeY; y++)
+		{
+			for(int x =0; x < sizeX; x++)
+			{
+				if(legalArray[x,y] == true)
+				{
+					for(int innerY = y; y < maxRoomSize;  innerY++)
+					{
+						if(legalArray[x,y] != true)
+						{
+							break;
+						}
+						for(int innerX = x; x < maxRoomSize;  innerX++)
+						{
+							if(innerX >= sizeX)
+							{
+								if(maxX < innerX)
+								{
+									maxX = innerX;
+								}
+								if(innerX < minRoomSize)
+								{
+									legalArray[x,y] = false;
+								}
+							}
+
+							if(innerY >= sizeY)
+							{
+								if(maxY < innerY)
+								{
+									maxY = innerY;
+								}
+								if(innerY < minRoomSize)
+								{
+									legalArray[x,y] = false;
+								}
+								
+							}
+
+							if(legalArray[x,y] == true &&floorValues[innerX,innerY] != FLOORTYPE.EMPTY )
+							{
+								if(maxX < innerX)
+								{
+									maxX = innerX;
+								}
+								if(innerX < minRoomSize)
+								{
+									legalArray[x,y] = false;
+								}
+								if(maxY < innerY)
+								{
+									maxY = innerY;
+								}
+								if(innerY < minRoomSize)
+								{
+									legalArray[x,y] = false;
+								}
+							}
+						}
+					}
+					if(legalArray[x,y] == true)
+					{
+						indexX = x;
+						indexY = y;
+						return; //we have found a spot the room may be placed so we can stop checking
+					}
+				}
+			}
+		}
+		finished = true;
 	}
 
 	void getRandomDirection(ref int newMinWalk,ref Vector2 direction)
@@ -128,7 +265,8 @@ public class structureGridMaker
 					direction.y = -direction.y;
 				}
 			}
-			newMinWalk = Random.Range(minHallwaySpan,maxHallwaySpan);
+			int avSideLength = (sizeX + sizeY)/2;
+			newMinWalk = Mathf.RoundToInt(Random.Range(minHallwaySpan,maxHallwaySpan) * avSideLength);
 		}
 	}
 
@@ -154,4 +292,27 @@ public class structureGridMaker
 		}
 	}
 	
+}
+
+public class room
+{
+	public int x =0;
+	public int y =0;
+	public int sizeX =0;
+	public int sizeY =0;
+
+	public room(int x,int y,int sizeX ,int sizeY )
+	{
+		this.x = x;
+		this.y = y;
+		this.sizeX = sizeX;
+		this.sizeY  = sizeX;
+	}
+
+	public bool isColliding(room otherRoom)//untested
+	{
+		return(x + sizeX >= otherRoom.x && x <= otherRoom.x + otherRoom.sizeX&&y + sizeY >= otherRoom.y && y <= otherRoom.y + otherRoom.sizeY);
+	
+	}
+
 }
