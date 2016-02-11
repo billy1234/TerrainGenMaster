@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\NoiseGeneration\CellNoiseTest.cs">
     <Files>
-      <File FileName="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs" Line="112" Column="6" />
-      <File FileName="Assets\Scripts\NoiseGeneration\LayerDebug.cs" Line="16" Column="2" />
+      <File FileName="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs" Line="34" Column="6" />
+      <File FileName="Assets\Scripts\NoiseGeneration\TerrainNoiseExtention.cs" Line="13" Column="15" />
+      <File FileName="Assets\Scripts\NoiseGeneration\CellNoiseTest.cs" Line="25" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

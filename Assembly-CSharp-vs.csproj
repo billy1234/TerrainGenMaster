@@ -63,9 +63,10 @@
      <Compile Include="Assets\Scripts\LSystem.cs" />
      <Compile Include="Assets\Scripts\LSystemTree.cs" />
      <Compile Include="Assets\Scripts\LSystemWalker.cs" />
-     <Compile Include="Assets\Scripts\NoiseGeneration\LayerDebug.cs" />
+     <Compile Include="Assets\Scripts\NoiseGeneration\CellNoiseTest.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\PerlinToTexture.cs" />
+     <Compile Include="Assets\Scripts\NoiseGeneration\TerrainNoiseExtention.cs" />
      <Compile Include="Assets\Scripts\PathfindingAgent.cs" />
      <Compile Include="Assets\Scripts\PlannetGeneration\Plannet.cs" />
      <Compile Include="Assets\Scripts\ProcedralMeshMasterScript\PlaneBuilder.cs" />

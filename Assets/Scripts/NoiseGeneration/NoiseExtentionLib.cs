@@ -7,8 +7,78 @@ public struct NoiseOctaveInfo
 	public float Lacunarity;
 	public float Persistance;
 }
+
 namespace NoiseExtention
 {
+	public static class cellNoise
+	{
+		private static System.Random noisePrng;
+		public static float[,] getNormalizedCellNoise(int height, int width,int seed,int featurePointCount)
+		{
+			float[,] noise = getCellNoise(height, width, seed, featurePointCount);
+			float maxValue =0;
+			for(int y =0; y < height; y++)
+			{
+				for(int x =0; x < height; x++)
+				{
+					if(maxValue < noise[x,y])
+					{
+						maxValue = noise[x,y];
+					}
+				}
+			}
+
+			for(int y =0; y < height; y++)
+			{
+				for(int x =0; x < height; x++)
+				{
+					noise[x,y] /= maxValue;
+				}
+			}
+			return noise;
+		}
+		public static float[,] getCellNoise(int height, int width,int seed,int featurePointCount)
+		{
+			noisePrng = new System.Random(seed);
+			float[,] noise = new float[height,width];
+			Vector2[] featurePoints = new Vector2[featurePointCount];
+			for(int i =0; i < featurePointCount;i++)
+			{
+				featurePoints[i] = new Vector2((float)noisePrng.NextDouble(),(float)noisePrng.NextDouble());
+			}
+			for(int y =0; y < height; y++)
+			{
+				for(int x =0; x < height; x++)
+				{
+					noise[x,y] = setCell(featurePoints,x,y,height,width);
+				}
+			}
+			return noise;
+		}
+
+		private static float setCell(Vector2[] featurepoints,int x,int y,int height, int width)
+		{
+			float minDistance = Mathf.Infinity;
+			float featureX;
+			float featureY;
+			Vector2 position = new Vector2(x,y);
+			for(int i =0; i < featurepoints.Length; i++)
+			{
+				featureX = featurepoints[i].x * width;
+				featureY = featurepoints[i].y * height;
+				float currentDistance =Mathf.Abs(euclideandistance(position,new Vector2(featureX,featureY)));
+				if(currentDistance < minDistance)
+				{
+					minDistance =  currentDistance;
+				}
+			}
+			return minDistance;
+		}
+		private static float euclideandistance(Vector2 p1, Vector2 p2)
+		{
+			return((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y) + (p1.x - p2.x) * (p1.x - p2.x));
+		}
+	}
 
 	public static class perlinNoiseExtention
 	{
@@ -54,7 +124,7 @@ namespace NoiseExtention
 			
 			for(int i=0; i < layerInfo.Length; i++)
 			{
-				heightValue += Mathf.PerlinNoise((x + Random.Range(-jitter,jitter)) * baseNoiseScale *layerInfo[i].Lacunarity, (y+ Random.Range(-jitter,jitter)) * baseNoiseScale * layerInfo[i].Lacunarity) *  layerInfo[i].Persistance;
+				heightValue += Mathf.PerlinNoise((x + (((float)noisePrng.NextDouble() * 2 * jitter)- jitter)) * baseNoiseScale *layerInfo[i].Lacunarity, (y+ (((float)noisePrng.NextDouble() * 2 * jitter)- jitter)) * baseNoiseScale * layerInfo[i].Lacunarity) *  layerInfo[i].Persistance;
 			}
 			
 			heightValue = heightValue / maxPersistance; //re normalize the value
