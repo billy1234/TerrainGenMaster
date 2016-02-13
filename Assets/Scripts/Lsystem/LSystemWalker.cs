@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using LSystemLib;
 [System.Serializable]
 public struct letterDirection
 {
@@ -9,7 +10,7 @@ public struct letterDirection
 }
 public class LSystemWalker : MonoBehaviour 
 {
-	public LSystem mySystem;
+	public LSystemBasic mySystem;
 	public letterDirection[] letterDirections;
 	Vector3[] woldPositions;
 	public char startLetter;

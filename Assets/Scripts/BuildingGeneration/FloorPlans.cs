@@ -15,7 +15,7 @@ public class FloorPlans : MonoBehaviour
 	void Start()
 	{
 		//addSquare(new Vector2[4]{new Vector2(0,0),new Vector2(0,1),new Vector2(1,1),new Vector2(1,0)});
-		s = new structureGridMaker(10,8);
+		//s = new structureGridMaker(10,8); BROKEN DO NOT RUN
 	}
 	/*
 	
@@ -143,7 +143,7 @@ public class structureGridMaker
 		{
 			int maxX = Mathf.RoundToInt(maxRoomSize * (sizeX+ sizeY)/2f);
 			int maxY = Mathf.RoundToInt(maxRoomSize * (sizeX+ sizeY)/2f);
-			getBotomLeftMost(ref indexX,ref indexY,ref legalStarts,ref finished,ref maxX,ref maxY);
+			getRoomCoordinates(ref indexX,ref indexY,ref legalStarts,ref finished,ref maxX,ref maxY);
 			room roomToAdd =new room(indexX,indexY,Random.Range(minSize,maxX),Random.Range(minSize,maxY));
 			addRoomToArray(roomToAdd);
 			houseRooms.Add(roomToAdd);
@@ -164,78 +164,9 @@ public class structureGridMaker
 			}
 		}
 	}
-	void getBotomLeftMost(ref int indexX, ref int indexY, ref bool[,] legalArray,ref bool finished,ref int maxX,ref int maxY)
+	void getRoomCoordinates(ref int indexX, ref int indexY, ref bool[,] legalArray,ref bool finished,ref int maxX,ref int maxY)
 	{
-		for(int y =0; y < sizeY; y++)
-		{
-			for(int x =0; x < sizeX; x++)
-			{
-				if(legalArray[x,y] == true)
-				{
-					for(int innerY = y; y < maxRoomSize;  innerY++)
-					{
-						if(legalArray[x,y] != true)
-						{
-							break;
-						}
-						for(int innerX = x; x < maxRoomSize;  innerX++)
-						{
-							if(innerX >= sizeX)
-							{
-								if(maxX < innerX)
-								{
-									maxX = innerX;
-								}
-								if(innerX < minRoomSize)
-								{
-									legalArray[x,y] = false;
-								}
-							}
 
-							if(innerY >= sizeY)
-							{
-								if(maxY < innerY)
-								{
-									maxY = innerY;
-								}
-								if(innerY < minRoomSize)
-								{
-									legalArray[x,y] = false;
-								}
-								
-							}
-
-							if(legalArray[x,y] == true &&floorValues[innerX,innerY] != FLOORTYPE.EMPTY )
-							{
-								if(maxX < innerX)
-								{
-									maxX = innerX;
-								}
-								if(innerX < minRoomSize)
-								{
-									legalArray[x,y] = false;
-								}
-								if(maxY < innerY)
-								{
-									maxY = innerY;
-								}
-								if(innerY < minRoomSize)
-								{
-									legalArray[x,y] = false;
-								}
-							}
-						}
-					}
-					if(legalArray[x,y] == true)
-					{
-						indexX = x;
-						indexY = y;
-						return; //we have found a spot the room may be placed so we can stop checking
-					}
-				}
-			}
-		}
-		finished = true;
 	}
 
 	void getRandomDirection(ref int newMinWalk,ref Vector2 direction)

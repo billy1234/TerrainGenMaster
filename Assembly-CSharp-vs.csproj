@@ -60,9 +60,10 @@
      <Compile Include="Assets\Scripts\DungeonCrawlerIteration2\TextureCompiler.cs" />
      <Compile Include="Assets\Scripts\DungeonCrawlerIteration2\World.cs" />
      <Compile Include="Assets\Scripts\DungeonPathfinder.cs" />
-     <Compile Include="Assets\Scripts\LSystem.cs" />
-     <Compile Include="Assets\Scripts\LSystemTree.cs" />
-     <Compile Include="Assets\Scripts\LSystemWalker.cs" />
+     <Compile Include="Assets\Scripts\Lsystem\LSystemLib.cs" />
+     <Compile Include="Assets\Scripts\Lsystem\LSystemTree.cs" />
+     <Compile Include="Assets\Scripts\Lsystem\LSystemWalker.cs" />
+     <Compile Include="Assets\Scripts\Lsystem\lsysdebug.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\CellNoiseTest.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\PerlinToTexture.cs" />

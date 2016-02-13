@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using LSystemLib;
 
 [RequireComponent(typeof(MeshFilter))]
 public class SuperFormulaTree : MonoBehaviour 
 {
 	SuperFormula formula;
-	public LSystem treeLsystem;
+	public LSystemBasic treeLsystem;
 	public int treeStages;
 	public float branchSpacing =0.1f;
 	public float a,b,m,n1,n2,n3;

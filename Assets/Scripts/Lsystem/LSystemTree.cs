@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using LSystemLib;
 public class LSystemTree : MonoBehaviour 
 {
-	public LSystem treeRules;
-	public LSystem branchRules;
+	public LSystemBasic treeRules;
+	public  LSystemBasic branchRules;
 	public char branchCharacter;
 	//o = outward
 	//u = up
