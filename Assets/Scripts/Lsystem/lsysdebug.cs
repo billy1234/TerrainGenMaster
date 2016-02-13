@@ -7,6 +7,6 @@ public class lsysdebug : MonoBehaviour {
 	public LSystem lsys;
 	void Start()
 	{
-		lsys.run();
+		lsys.run('a');
 	}
 }

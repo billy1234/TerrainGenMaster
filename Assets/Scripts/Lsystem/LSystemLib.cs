@@ -20,14 +20,14 @@ namespace LSystemLib
 				{
 					if(r.systemCase == nextValue)
 					{
-						r.action(results.ToArray(),running);
+						r.action(results.ToArray(),ref running);
 						break;
 					}
 
 				}
 			if(running)
 			{
-				run ();
+				run ('a');
 			}
 		}
 		[System.Serializable]
