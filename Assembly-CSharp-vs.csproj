@@ -64,10 +64,13 @@
      <Compile Include="Assets\Scripts\Lsystem\LSystemTree.cs" />
      <Compile Include="Assets\Scripts\Lsystem\LSystemWalker.cs" />
      <Compile Include="Assets\Scripts\Lsystem\lsysdebug.cs" />
+     <Compile Include="Assets\Scripts\Lsystem\wallFractal.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\CellNoiseTest.cs" />
+     <Compile Include="Assets\Scripts\NoiseGeneration\GridLib.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\PerlinToTexture.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\TerrainNoiseExtention.cs" />
+     <Compile Include="Assets\Scripts\NoiseGeneration\perlinDisplaytest.cs" />
      <Compile Include="Assets\Scripts\PathfindingAgent.cs" />
      <Compile Include="Assets\Scripts\PlannetGeneration\Plannet.cs" />
      <Compile Include="Assets\Scripts\ProcedralMeshMasterScript\PlaneBuilder.cs" />

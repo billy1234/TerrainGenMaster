@@ -8,27 +8,50 @@ namespace LSystemLib
 	[System.Serializable]
 	public class LSystem
 	{
-		public delegate void LSystemAction(char[] previousSteps,ref bool running);
+		public delegate void LSystemAction(ref List<char> previousSteps,ref bool running, params object[] extraInfo);
 		 //turns a letter result in an lsystems contents into an action
-		private List<char> results = new List<char>();
+
 		public List<LSystemRecation> reactions = new List<LSystemRecation>();
-		public void run(char nextValue)
+
+
+		/// <summary>
+		/// will run the lsystem till it terminates its self or n passes are reached
+		/// </summary>
+		/// <param name="n">N.</param>
+		public void run(int n)//n = max passes
 		{
+			List<char> pendingProcesses = new List<char>();
 			bool running = true;
-			reactions.Sort();
-				foreach(LSystemRecation r in reactions)
+			int passes =0;
+			while(running)
+			{
+				runRules(ref running,ref pendingProcesses);
+				passes ++;
+				if(passes == n)
+					break;
+			}
+
+		}
+
+		private void runRules(ref bool running,ref List<char>  pendingProcesses)
+		{
+			for(int i=0; i < pendingProcesses.Count; i++)
+			{
+				foreach(char r in  pendingProcesses)
 				{
-					if(r.systemCase == nextValue)
+					/*if(r.systemCase == r)//tValue)
 					{
-						r.action(results.ToArray(),ref running);
+						r.action(pendingProcesses,ref running);
 						break;
 					}
-
+*/
 				}
-			if(running)
-			{
-				run ('a');
 			}
+
+		}
+		private void runReactions()
+		{
+
 		}
 		[System.Serializable]
 		public class LSystemRule
