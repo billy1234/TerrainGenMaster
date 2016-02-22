@@ -12,10 +12,13 @@ public class perlinDisplaytest : MonoBehaviour {
 	public float lacunarity = 1.5f;
 	public float persistance =0.5f;
 	public Vector2 offset;
+	public float heightScale =5f;
 
 	void Start ()
 	{
-		GetComponent<Renderer>().material.mainTexture = heightMapToTexture.genrateTextureFromSingleGradient(g,perlinNoiseLayeredSimple.perlinNoise(width,height,seed,scale,octaves,persistance,lacunarity,offset));
+		float[,] heightmap = perlinNoiseLayeredSimple.perlinNoise(width,height,seed,scale,octaves,persistance,lacunarity,offset);
+		GetComponent<Renderer>().material.mainTexture = heightMapToTexture.genrateTextureFromSingleGradient(heightmap,g);
+		GetComponent<MeshFilter>().mesh = heightMapToMesh.meshFromHeightMap(heightmap,heightScale);
 	}
 	
 
@@ -23,7 +26,7 @@ public class perlinDisplaytest : MonoBehaviour {
 	{
 		if(Application.isPlaying)
 		{
-			Start();
+			//Start();
 		}
 	}
 }
