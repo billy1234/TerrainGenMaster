@@ -221,7 +221,7 @@ namespace NoiseExtention
 					{
 						float sampleX = x/scale*frequency + octaveOffsets[i].x;
 						float sampleY = y/scale*frequency + octaveOffsets[i].y;
-						float perlinValue = Mathf.PerlinNoise(sampleX,sampleY) *2f -1f;
+						float perlinValue = Mathf.PerlinNoise(sampleX,sampleY);
 						noiseHeight +=perlinValue * amplitude;
 
 						amplitude *= peristance;
@@ -235,6 +235,7 @@ namespace NoiseExtention
 					else if(noiseHeight < minNoise)
 					{
 						minNoise = noiseHeight;
+						//Debug.Log(minNoise);
 					}
 					noiseMap[x,y] = noiseHeight;
 				}

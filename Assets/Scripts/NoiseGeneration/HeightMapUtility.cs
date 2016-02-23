@@ -108,5 +108,73 @@ namespace heightMapUtility
 
 		}
 	}
+
+	public static class noiseSmoothing
+	{
+		/// <summary>
+		/// Clamps the edges circular.
+		/// </summary>
+		/// <param name="heightMap">Height map.</param>
+		/// <param name="innerRadiusPercentage">a float between the range of 0 to 1 represting 0percent to 100percent</param>
+		public static void ClampEdgesCircular(ref float[,] heightMap,float innerRadiusPercentage,float outerRadiusIncrease,float clampHeight) //assumes the heightmap is normalized between 0-1
+		{
+			if(innerRadiusPercentage < 0 || innerRadiusPercentage > 1)
+			{
+				Debug.LogError("incorrect percentage passed to the noisesmoothing.ClampEdgesCircular class, must be between 0f-1f");
+			}
+
+			int width = heightMap.GetLength(0);
+			int height = heightMap.GetLength(1);
+			float hillX = (float)width/2f;
+			float hillY = (float)height/2f;
+			float radius = ((width + height)/4f)* innerRadiusPercentage;
+			float radiusSquared = radius * radius;//square the radius one to save some cpu cycles
+			float flatCuttOffRad = radius + (radius * outerRadiusIncrease);
+			flatCuttOffRad = flatCuttOffRad * flatCuttOffRad;
+			for(int y =0; y < height; y++)
+			{
+				for(int x =0; x < width; x++)
+				{
+						heightMap[x,y] = hillHeight(hillX,x,hillY,y,radiusSquared,flatCuttOffRad,clampHeight) * heightMap[x,y];
+				}
+			}
+
+		}
+		public static void ClampEdgesCircular(ref float[,] heightMap,float innerRadiusPercentage,float outerRadiusIncrease) //assumes the heightmap is normalized between 0-1
+		{
+			ClampEdgesCircular(ref heightMap,innerRadiusPercentage,outerRadiusIncrease,0);
+		}
+
+		private static float hillHeight(float hillX, float x, float hillY,float y,float radiusSquared,float smoothingRad,float clampHeight)
+		{
+			float result =0;
+			float xDifferenceSquared = (x - hillX) * (x - hillX);
+			float yDifferenceSquared = (y - hillY) * (y - hillY);
+			result = radiusSquared -(xDifferenceSquared + yDifferenceSquared);
+			if(result < 0)
+			{
+				if(result > -smoothingRad)
+				{
+					result = Mathf.InverseLerp(-smoothingRad,0,result);
+					if(result < clampHeight)
+					{
+						result = clampHeight;
+					}
+					//Debug.Log(result +"  x: "+x+"  y: "+y);
+				}
+				else
+				{
+					result = clampHeight;
+				}
+
+			}
+			else
+			{
+				result = 1;
+			}
+			return result;
+		}
+	}
+
 }
 
