@@ -70,7 +70,7 @@
      <Compile Include="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\PerlinToTexture.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\TerrainNoiseExtention.cs" />
-     <Compile Include="Assets\Scripts\NoiseGeneration\perlinDisplaytest.cs" />
+     <Compile Include="Assets\Scripts\NoiseGeneration\perlinDisplayTest.cs" />
      <Compile Include="Assets\Scripts\PathfindingAgent.cs" />
      <Compile Include="Assets\Scripts\PlannetGeneration\Plannet.cs" />
      <Compile Include="Assets\Scripts\ProcedralMeshMasterScript\PlaneBuilder.cs" />

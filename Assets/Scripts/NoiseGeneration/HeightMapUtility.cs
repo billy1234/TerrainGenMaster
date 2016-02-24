@@ -4,9 +4,15 @@ using System.Collections;
 namespace heightMapUtility
 {
 	public static class heightMapToTexture
-	{
+	{ 
+
+		/// <summary>
+		/// Generates a grey scale texture.
+		/// </summary>
+		/// <returns>a texture 2d the length and width of the heightmap, all pixels will be in grey scale. assumes the arrays values are nomalized between 0-1</returns>
 		public static Texture2D generateGreyScaleTexture(float[,] heightMap)
 		{
+
 			int width = heightMap.GetLength(0);
 			int height = heightMap.GetLength(1);
 			Color[] pixels = new Color[height * width];
@@ -19,6 +25,10 @@ namespace heightMapUtility
 			}
 			return buildTextureFromPixels(pixels,width,height);
 		}
+		/// <summary>
+		/// Generates a textire from a gradient.. assumes the arrays values are nomalized between 0-1
+		/// </summary>
+		/// <returns>a texture 2d the length and width of the heightmap, all pixels will be based on the gradient provided.</returns>
 		public static Texture2D genrateTextureFromSingleGradient(float[,] heightMap,Gradient colorGradient)
 		{
 			int width = heightMap.GetLength(0);
@@ -33,7 +43,6 @@ namespace heightMapUtility
 			}
 			return buildTextureFromPixels(pixels,width,height);
 		}
-
 		private static Texture2D buildTextureFromPixels(Color[] pixels, int width,int height)
 		{
 			Texture2D texture = new Texture2D(width,height);
@@ -46,10 +55,15 @@ namespace heightMapUtility
 	}
 
 	/// <summary>
-	/// not implimented
+	/// A class for turning heightmaps (2d float arrays into usable meshes)
 	/// </summary>
 	public static class heightMapToMesh
 	{
+		/// <summary>
+		/// will turn this float array into a plane with its y offest by the contents of the array.
+		/// </summary>
+		/// <returns>a mesh based on the heightmap scaled by scale fator.</returns>
+		/// <param name="scaleFactor">will scale by x y and z based on the contents of the vector.</param>
 		public static Mesh meshFromHeightMap(float[,] heightMap,Vector3 scaleFactor)
 		{
 			int width = heightMap.GetLength(0);
@@ -87,14 +101,25 @@ namespace heightMapUtility
 			mesh.vertices = verts;
 			mesh.triangles = tris;
 			mesh.uv = uvs;
+			mesh.name = "heightMapToMeshOutPut";
 			mesh.RecalculateNormals();
 			mesh.RecalculateBounds();
 			return mesh;
 		}
+
+		/// <summary>
+		/// will turn this float array into a plane with its y offest by the contents of the array.
+		/// </summary>
+		/// <returns>a mesh based on the heightmap scaled by scale fator.</returns>
+		/// <param name="yScaleFactor">will scale the y axis of the verticies.</param>
 		public static Mesh meshFromHeightMap(float[,] heightMap,float ySscaleFactor)
 		{
 			return meshFromHeightMap(heightMap,new Vector3(1f,ySscaleFactor,1f));
 		}
+		/// <summary>
+		/// will turn this float array into a plane with its y offest by the contents of the array.
+		/// </summary>
+		/// <returns>a mesh based on the heightmap scaled by scale fator.</returns>
 		public static Mesh meshFromHeightMap(float[,] heightMap)
 		{
 			return meshFromHeightMap(heightMap,Vector3.one);
@@ -109,13 +134,15 @@ namespace heightMapUtility
 		}
 	}
 
-	public static class noiseSmoothing
+	public static class heightMapSmoothing
 	{
 		/// <summary>
-		/// Clamps the edges circular.
+		/// will smooth your heightmap so all the points out side of the circle will gradualy fall to clamp height
 		/// </summary>
 		/// <param name="heightMap">Height map.</param>
-		/// <param name="innerRadiusPercentage">a float between the range of 0 to 1 represting 0percent to 100percent</param>
+		/// <param name="innerRadiusPercentage">what percentage of the map the radius of the un touched terrain will take up.</param>
+		/// <param name="outerRadiusIncrease">a second circle that defines the gradual slope between the real heigtht value and the clamp this value MUST be higher than innerRadius.</param>
+		/// <param name="clampHeight">the lowest height the clamping will push areas out side of the circle to.</param>
 		public static void ClampEdgesCircular(ref float[,] heightMap,float innerRadiusPercentage,float outerRadiusIncrease,float clampHeight) //assumes the heightmap is normalized between 0-1
 		{
 			if(innerRadiusPercentage < 0 || innerRadiusPercentage > 1)
@@ -140,6 +167,13 @@ namespace heightMapUtility
 			}
 
 		}
+
+		/// <summary>
+		/// will smooth your heightmap so all the points out side of the circle will gradualy fall to clamp height
+		/// </summary>
+		/// <param name="heightMap">Height map.</param>
+		/// <param name="innerRadiusPercentage">what percentage of the map the radius of the un touched terrain will take up.</param>
+		/// <param name="outerRadiusIncrease">a second circle that defines the gradual slope between the real heigtht value and the clamp this value MUST be higher than innerRadius.</param>
 		public static void ClampEdgesCircular(ref float[,] heightMap,float innerRadiusPercentage,float outerRadiusIncrease) //assumes the heightmap is normalized between 0-1
 		{
 			ClampEdgesCircular(ref heightMap,innerRadiusPercentage,outerRadiusIncrease,0);
@@ -173,6 +207,28 @@ namespace heightMapUtility
 				result = 1;
 			}
 			return result;
+		}
+
+		/// <summary>
+		/// will not alow values in the heightmap to fall below min height.
+		/// </summary>
+		/// <param name="heightMap">Height map.</param>
+		/// <param name="minHeight">Minimum height.</param>
+		public static void clampHeightMapAt(ref float[,] heightMap,float minHeight)
+		{	
+			int width = heightMap.GetLength(0);
+			int height = heightMap.GetLength(1);
+			for(int y =0; y < height; y++)
+			{
+				for(int x =0; x < width; x++)
+				{
+					if(heightMap[x,y] < minHeight)
+					{
+						heightMap[x,y] = minHeight;
+					}
+				}
+			}
+
 		}
 	}
 

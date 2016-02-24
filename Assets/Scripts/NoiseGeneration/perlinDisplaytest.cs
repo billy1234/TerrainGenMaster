@@ -2,7 +2,7 @@
 using System.Collections;
 using NoiseExtention;
 using heightMapUtility;
-public class perlinDisplaytest : MonoBehaviour {
+public class perlinDisplayTest : MonoBehaviour {
 	public Gradient g;
 	public int width =5;
 	public int height =5;
@@ -20,10 +20,10 @@ public class perlinDisplaytest : MonoBehaviour {
 	void Start ()
 	{
 		float[,] heightmap =perlinNoiseLayeredSimple.perlinNoise(width,height,seed,scale,octaves,persistance,lacunarity,offset);
-
-		noiseSmoothing.ClampEdgesCircular(ref heightmap,0.5f,0.7f);
-		GetComponent<Renderer>().material.mainTexture = heightMapToTexture.genrateTextureFromSingleGradient(heightmap,g);
-		GetComponent<MeshFilter>().mesh = heightMapToMesh.meshFromHeightMap(heightmap,heightScale);
+		heightMapSmoothing.ClampEdgesCircular(ref heightmap,0.5f,0.7f);
+		heightMapSmoothing.clampHeightMapAt(ref heightmap, clampHeight);
+		GetComponent<Renderer>().sharedMaterial.mainTexture = heightMapToTexture.genrateTextureFromSingleGradient(heightmap,g);
+		GetComponent<MeshFilter>().sharedMesh = heightMapToMesh.meshFromHeightMap(heightmap,heightScale);
 	}
 	
 
