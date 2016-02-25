@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\NoiseGeneration\HeightMapUtility.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\PerlinToTexture.cs" />
+     <Compile Include="Assets\Scripts\NoiseGeneration\PerlinWorms.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\TerrainNoiseExtention.cs" />
      <Compile Include="Assets\Scripts\NoiseGeneration\perlinDisplayTest.cs" />
      <Compile Include="Assets\Scripts\PathfindingAgent.cs" />
