@@ -48,6 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\BuildingGeneration\FloorPlans.cs" />
      <Compile Include="Assets\Scripts\Cell.cs" />
+     <Compile Include="Assets\Scripts\CellularAutomata\CATest.cs" />
+     <Compile Include="Assets\Scripts\CellularAutomata\CellularAutomataLibary.cs" />
      <Compile Include="Assets\Scripts\ChunkClass\ChunkData.cs" />
      <Compile Include="Assets\Scripts\ChunkClass\myTerrain.cs" />
      <Compile Include="Assets\Scripts\CityGeneration\CityDetector.cs" />
