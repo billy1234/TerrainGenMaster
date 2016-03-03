@@ -29,7 +29,7 @@ namespace heightMapUtility
 		/// Generates a textire from a gradient.. assumes the arrays values are nomalized between 0-1
 		/// </summary>
 		/// <returns>a texture 2d the length and width of the heightmap, all pixels will be based on the gradient provided.</returns>
-		public static Texture2D genrateTextureFromSingleGradient(float[,] heightMap,Gradient colorGradient)
+		public static Texture2D generateTextureFromSingleGradient(float[,] heightMap,Gradient colorGradient)
 		{
 			int width = heightMap.GetLength(0);
 			int height = heightMap.GetLength(1);
@@ -39,6 +39,7 @@ namespace heightMapUtility
 				for(int x =0; x < width; x++)
 				{
 					pixels[x + y * width] = colorGradient.Evaluate(heightMap[x,y]);
+					pixels[x + y * width].a = heightMap[x,y];//keep the raw heightmap data in alpha as terrains will normaly not be transparant
 				}
 			}
 			return buildTextureFromPixels(pixels,width,height);
@@ -143,7 +144,7 @@ namespace heightMapUtility
 		/// <param name="innerRadiusPercentage">what percentage of the map the radius of the un touched terrain will take up.</param>
 		/// <param name="outerRadiusIncrease">a second circle that defines the gradual slope between the real heigtht value and the clamp this value MUST be higher than innerRadius.</param>
 		/// <param name="clampHeight">the lowest height the clamping will push areas out side of the circle to.</param>
-		public static void ClampEdgesCircular(ref float[,] heightMap,float innerRadiusPercentage,float outerRadiusIncrease,float clampHeight) //assumes the heightmap is normalized between 0-1
+		public static void clampEdgesCircular(ref float[,] heightMap,float innerRadiusPercentage,float outerRadiusIncrease,float clampHeight) //assumes the heightmap is normalized between 0-1
 		{
 			if(innerRadiusPercentage < 0 || innerRadiusPercentage > 1)
 			{
@@ -174,9 +175,9 @@ namespace heightMapUtility
 		/// <param name="heightMap">Height map.</param>
 		/// <param name="innerRadiusPercentage">what percentage of the map the radius of the un touched terrain will take up.</param>
 		/// <param name="outerRadiusIncrease">a second circle that defines the gradual slope between the real heigtht value and the clamp this value MUST be higher than innerRadius.</param>
-		public static void ClampEdgesCircular(ref float[,] heightMap,float innerRadiusPercentage,float outerRadiusIncrease) //assumes the heightmap is normalized between 0-1
+		public static void clampEdgesCircular(ref float[,] heightMap,float innerRadiusPercentage,float outerRadiusIncrease) //assumes the heightmap is normalized between 0-1
 		{
-			ClampEdgesCircular(ref heightMap,innerRadiusPercentage,outerRadiusIncrease,0);
+			clampEdgesCircular(ref heightMap,innerRadiusPercentage,outerRadiusIncrease,0);
 		}
 
 		private static float hillHeight(float hillX, float x, float hillY,float y,float radiusSquared,float smoothingRad,float clampHeight)
@@ -230,7 +231,31 @@ namespace heightMapUtility
 			}
 
 		}
+
 	}
 
+	public static class textureResize
+	{
+		public static Texture2D resizeTexture(Texture2D oldTexture,float scaleFactor)
+		{
+			int height = Mathf.RoundToInt(oldTexture.height * scaleFactor);
+			int width  = Mathf.RoundToInt(oldTexture.width  * scaleFactor);
+			Texture2D texture = new Texture2D(height,width);
+			texture.filterMode = FilterMode.Point;
+			texture.wrapMode = TextureWrapMode.Clamp;
+			Color[] pixels = new Color[height * width];
+			for(int y =0; y < height; y++)
+			{
+				for(int x =0; x < width; x++)
+				{
+					pixels[x + y * width] = oldTexture.GetPixelBilinear((float)x/(float)width,(float)y/(float)height);
+				}
+			}
+			texture.SetPixels(pixels);
+			texture.Apply();
+			return texture;
+		}
+
+	}
 }
 

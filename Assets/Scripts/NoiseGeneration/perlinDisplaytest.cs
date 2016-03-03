@@ -19,10 +19,10 @@ public class perlinDisplayTest : MonoBehaviour {
 
 	void Start ()
 	{
-		float[,] heightmap =perlinNoiseLayeredSimple.perlinNoise(width,height,seed,scale,octaves,persistance,lacunarity,offset);
-		heightMapSmoothing.ClampEdgesCircular(ref heightmap,0.5f,0.7f);
+		float[,] heightmap =perlinNoiseLayeredSimple.perlinNoise(width,height,seed,scale,octaves,persistance,lacunarity,offset,true);
+		heightMapSmoothing.clampEdgesCircular(ref heightmap,0.5f,0.7f);
 		heightMapSmoothing.clampHeightMapAt(ref heightmap, clampHeight);
-		GetComponent<Renderer>().sharedMaterial.mainTexture = heightMapToTexture.genrateTextureFromSingleGradient(heightmap,g);
+		GetComponent<Renderer>().sharedMaterial.mainTexture = textureResize.resizeTexture(heightMapToTexture.generateTextureFromSingleGradient(heightmap,g),3f);
 		GetComponent<MeshFilter>().sharedMesh = heightMapToMesh.meshFromHeightMap(heightmap,heightScale);
 	}
 	

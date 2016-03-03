@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellularAutomata\CellularAutomataLibary.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\NoiseGeneration\perlinDisplayTest.cs">
     <Files>
-      <File FileName="Assets\Scripts\CellularAutomata\CellularAutomataLibary.cs" Line="145" Column="5" />
-      <File FileName="Assets\Scripts\CellularAutomata\CATest.cs" Line="13" Column="3" />
+      <File FileName="Assets\Scripts\NoiseGeneration\HeightMapUtility.cs" Line="147" Column="40" />
+      <File FileName="Assets\Scripts\NoiseGeneration\perlinDisplayTest.cs" Line="23" Column="40" />
+      <File FileName="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs" Line="198" Column="46" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

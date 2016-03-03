@@ -197,7 +197,7 @@ namespace NoiseExtention
 
 	public static class perlinNoiseLayeredSimple
 	{
-		public static float[,] perlinNoise(int mapWidth, int mapHeight, int seed, float scale, int octaves, float peristance, float lacunarity,Vector2 offset)
+		public static float[,] perlinNoise(int mapWidth, int mapHeight, int seed, float scale, int octaves, float peristance, float lacunarity,Vector2 offset,bool squared)
 		{
 			System.Random prng = new System.Random(seed);
 			float[,] noiseMap = new float[mapWidth,mapHeight];
@@ -237,7 +237,12 @@ namespace NoiseExtention
 						minNoise = noiseHeight;
 						//Debug.Log(minNoise);
 					}
-					noiseMap[x,y] = noiseHeight;
+					if(squared)
+					{
+						noiseHeight *= noiseHeight;
+					}
+						noiseMap[x,y] = noiseHeight;
+					
 				}
 			}
 			//normalization
@@ -249,6 +254,10 @@ namespace NoiseExtention
 				}
 			}
 			return noiseMap;
+		}
+		public static float[,] perlinNoise(int mapWidth, int mapHeight, int seed, float scale, int octaves, float peristance, float lacunarity,Vector2 offset)
+		{
+			return perlinNoise(mapWidth, mapHeight, seed, scale, octaves, peristance, lacunarity, offset,false);
 		}
 	}
 }
