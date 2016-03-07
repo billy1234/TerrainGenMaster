@@ -16,8 +16,7 @@ public class perlinDisplayTest : MonoBehaviour {
 	public float clampHeight =0.2f;
 	public float innerRadius =0.5f;
 	public float outerRadius =0.7f;
-	public Texture2D[] textures = new Texture2D[3];
-	public Vector2[] tilling = new Vector2[3];
+	public splatMapInput splatMapInfo;
 
 	void Start ()
 	{
@@ -25,7 +24,8 @@ public class perlinDisplayTest : MonoBehaviour {
 		heightMapSmoothing.clampEdgesCircular(ref heightmap,0.5f,0.7f);
 		heightMapSmoothing.clampHeightMapAt(ref heightmap, clampHeight);
 		Texture2D texture = textureResize.resizeTexture(heightMapToTexture.generateTextureFromSingleGradient(heightmap,g),10f);
-		texture = splatMap.splatMapTexure2Drgb(texture,textures,tilling);
+		splatMapInfo.weights = texture;
+		texture = splatMap.splatMapTexure2Drgb(splatMapInfo);
 		texture.filterMode = FilterMode.Trilinear;
 		GetComponent<Renderer>().sharedMaterial.mainTexture = texture;
 		GetComponent<MeshFilter>().sharedMesh = heightMapToMesh.meshFromHeightMap(heightmap,heightScale);
@@ -36,7 +36,7 @@ public class perlinDisplayTest : MonoBehaviour {
 	{
 		if(Application.isPlaying)
 		{
-			//Start();
+			//Start(); too slow now that texture resizeing and splatmapping added
 		}
 	}
 }

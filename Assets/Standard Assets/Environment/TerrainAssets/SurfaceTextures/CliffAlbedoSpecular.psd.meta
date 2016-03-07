@@ -17,7 +17,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: .25
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   grayScaleToAlpha: 0
   generateCubemap: 0
   cubemapConvolution: 0
@@ -43,26 +43,27 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 0
-  textureType: 0
+  textureType: 5
   buildTargetSettings:
   - buildTarget: iPhone
     maxTextureSize: 256
-    textureFormat: -1
+    textureFormat: 33
     compressionQuality: 50
   - buildTarget: Android
     maxTextureSize: 256
-    textureFormat: -1
+    textureFormat: 13
     compressionQuality: 50
   - buildTarget: BlackBerry
     maxTextureSize: 256
-    textureFormat: -1
+    textureFormat: 13
     compressionQuality: 50
   - buildTarget: WP8
     maxTextureSize: 256
-    textureFormat: -1
+    textureFormat: 12
     compressionQuality: 50
   spriteSheet:
     sprites: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
+  assetBundleVariant: 

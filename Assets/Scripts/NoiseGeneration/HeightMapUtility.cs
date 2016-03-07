@@ -39,7 +39,6 @@ namespace heightMapUtility
 				for(int x =0; x < width; x++)
 				{
 					pixels[x + y * width] = colorGradient.Evaluate(heightMap[x,y]);
-					pixels[x + y * width].a = heightMap[x,y];//keep the raw heightmap data in alpha as terrains will normaly not be transparant
 				}
 			}
 			return buildTextureFromPixels(pixels,width,height);
@@ -257,15 +256,41 @@ namespace heightMapUtility
 		}
 
 	}
+	[System.Serializable]
+	public class splatMapInput
+	{
+		[HideInInspector]
+		public Texture2D weights;
+		public Texture2D textureR;
+		public Texture2D textureG;
+		public Texture2D textureB;
+		public Texture2D textureA;
+		public Vector2 tilingR;
+		public Vector2 tilingG;
+		public Vector2 tilingB;
+		public Vector2 tilingA;
 
+		public splatMapInput ()
+		{
+			this.tilingR = Vector2.one;
+			this.tilingG = Vector2.one;
+			this.tilingB = Vector2.one;
+			this.tilingA = Vector2.one;
+		}
+	};
 	public static class splatMap
 	{
+		public static  Texture2D splatMapTexure2Drgb(splatMapInput input)
+		{
+			return splatMapTexure2Drgb(input.weights, new Texture2D[4]{input.textureR,input.textureG,input.textureB,input.textureA},new Vector2[4]{input.tilingR,input.tilingG,input.tilingB,input.tilingA});
+		}
+
 		public static Texture2D splatMapTexure2Drgb(Texture2D weights, Texture2D[] textures,Vector2[] tiling)
 		{
 			int height = weights.height;
 			int width = weights.width;
 			Color[] pixels = new Color[height * width];
-			for(int i=0; i < 3; i ++)
+			for(int i=0; i < 4; i ++)
 			{
 				textures[i].wrapMode = TextureWrapMode.Repeat;
 
@@ -280,6 +305,7 @@ namespace heightMapUtility
 					bendedColor += textures[0].GetPixelBilinear(((float)x/(float)width) * tiling[0].x,((float)y/(float)height) *tiling[0].y) * (weight.r /maxWeight );
 					bendedColor += textures[1].GetPixelBilinear(((float)x/(float)width) * tiling[1].x,((float)y/(float)height) *tiling[1].y) * (weight.g /maxWeight );
 					bendedColor += textures[2].GetPixelBilinear(((float)x/(float)width) * tiling[2].x,((float)y/(float)height) *tiling[2].y) * (weight.b /maxWeight );
+					bendedColor += textures[3].GetPixelBilinear(((float)x/(float)width) * tiling[3].x,((float)y/(float)height) *tiling[3].y) * (weight.a /maxWeight );
 					if(weight == Color.black)
 					{
 						bendedColor = Color.blue;
