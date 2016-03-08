@@ -16,9 +16,10 @@ public class perlinDisplayTest : MonoBehaviour {
 	public float clampHeight =0.2f;
 	public float innerRadius =0.5f;
 	public float outerRadius =0.7f;
-	public splatMapShaderInput splatMapInfo;
+	//public splatMapShaderInput splatMapInfo;
+	public splatMapInput splatMapInfo;
 	[Tooltip("The final texture resolution will be width * height * upscale")]
-	[Range(1,40)]
+	[Range(1,30)]
 	public float textureUpscaleFactor =2;
 	void Start ()
 	{
@@ -27,10 +28,8 @@ public class perlinDisplayTest : MonoBehaviour {
 		heightMapSmoothing.clampHeightMapAt(ref heightmap, clampHeight);
 		Texture2D texture = textureResize.resizeTexture(heightMapToTexture.generateTextureFromSingleGradient(heightmap,g),textureUpscaleFactor);
 		splatMapInfo.weights = texture;
-		Mesh myMesh = heightMapToMesh.meshFromHeightMap(heightmap,heightScale);
-		myMesh = splatMap.uvMapWithTilling(myMesh,splatMapInfo);
-		splatMap.sendSplatToMaterial(splatMapInfo,GetComponent<Renderer>().sharedMaterial);
-		GetComponent<MeshFilter>().sharedMesh = myMesh;
+		GetComponent<MeshFilter>().sharedMesh = heightMapToMesh.meshFromHeightMap(heightmap,heightScale);
+		GetComponent<Renderer>().material.mainTexture = splatMap.splatMapTexure2Drgb(splatMapInfo);
 	}
 	
 

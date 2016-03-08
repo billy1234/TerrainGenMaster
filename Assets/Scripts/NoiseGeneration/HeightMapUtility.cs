@@ -346,7 +346,9 @@ namespace heightMapUtility
 					pixels[x + y * width] = bendedColor;
 				}
 			}
-			return heightMapToTexture.buildTextureFromPixels(pixels,height,width);
+			Texture2D texture =heightMapToTexture.buildTextureFromPixels(pixels,height,width);
+			texture.filterMode = FilterMode.Bilinear;
+			return texture;
 		}
 
 

@@ -17,7 +17,7 @@ TextureImporter:
     externalNormalMap: 1
     heightScale: 0
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   grayScaleToAlpha: 0
   generateCubemap: 0
   cubemapConvolution: 0
