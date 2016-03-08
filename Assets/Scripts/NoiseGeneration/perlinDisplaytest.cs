@@ -16,19 +16,21 @@ public class perlinDisplayTest : MonoBehaviour {
 	public float clampHeight =0.2f;
 	public float innerRadius =0.5f;
 	public float outerRadius =0.7f;
-	public splatMapInput splatMapInfo;
-
+	public splatMapShaderInput splatMapInfo;
+	[Tooltip("The final texture resolution will be width * height * upscale")]
+	[Range(1,40)]
+	public float textureUpscaleFactor =2;
 	void Start ()
 	{
 		float[,] heightmap =perlinNoiseLayeredSimple.perlinNoise(width,height,seed,scale,octaves,persistance,lacunarity,offset,true);
 		heightMapSmoothing.clampEdgesCircular(ref heightmap,0.5f,0.7f);
 		heightMapSmoothing.clampHeightMapAt(ref heightmap, clampHeight);
-		Texture2D texture = textureResize.resizeTexture(heightMapToTexture.generateTextureFromSingleGradient(heightmap,g),10f);
+		Texture2D texture = textureResize.resizeTexture(heightMapToTexture.generateTextureFromSingleGradient(heightmap,g),textureUpscaleFactor);
 		splatMapInfo.weights = texture;
-		texture = splatMap.splatMapTexure2Drgb(splatMapInfo);
-		texture.filterMode = FilterMode.Trilinear;
-		GetComponent<Renderer>().sharedMaterial.mainTexture = texture;
-		GetComponent<MeshFilter>().sharedMesh = heightMapToMesh.meshFromHeightMap(heightmap,heightScale);
+		Mesh myMesh = heightMapToMesh.meshFromHeightMap(heightmap,heightScale);
+		myMesh = splatMap.uvMapWithTilling(myMesh,splatMapInfo);
+		splatMap.sendSplatToMaterial(splatMapInfo,GetComponent<Renderer>().sharedMaterial);
+		GetComponent<MeshFilter>().sharedMesh = myMesh;
 	}
 	
 

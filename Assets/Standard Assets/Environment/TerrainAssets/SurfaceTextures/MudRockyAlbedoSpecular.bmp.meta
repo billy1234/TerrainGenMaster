@@ -10,14 +10,14 @@ TextureImporter:
     correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
-    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceStart: 0
     mipMapFadeDistanceEnd: 3
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0
     normalMapFilter: 0
-  isReadable: 1
+  isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
   cubemapConvolution: 0
@@ -27,10 +27,10 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 1024
   textureSettings:
-    filterMode: -1
-    aniso: -1
+    filterMode: 1
+    aniso: 0
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 0
   nPOTScale: 1
   lightmap: 0
   rGBM: 0
@@ -43,23 +43,23 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 0
-  textureType: 5
+  textureType: 0
   buildTargetSettings:
   - buildTarget: iPhone
     maxTextureSize: 256
-    textureFormat: 33
+    textureFormat: -1
     compressionQuality: 50
   - buildTarget: Android
     maxTextureSize: 256
-    textureFormat: 13
+    textureFormat: -2
     compressionQuality: 50
   - buildTarget: BlackBerry
     maxTextureSize: 256
-    textureFormat: 13
+    textureFormat: -2
     compressionQuality: 50
   - buildTarget: WP8
     maxTextureSize: 256
-    textureFormat: 12
+    textureFormat: -1
     compressionQuality: 50
   spriteSheet:
     sprites: []

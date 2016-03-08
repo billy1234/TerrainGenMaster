@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\NoiseGeneration\perlinDisplayTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\NoiseGeneration\HeightMapUtility.cs">
     <Files>
-      <File FileName="Assets\Scripts\NoiseGeneration\perlinDisplayTest.cs" Line="25" Column="67" />
-      <File FileName="Assets\Scripts\NoiseGeneration\HeightMapUtility.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\NoiseGeneration\NoiseExtentionLib.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CityGeneration\TerrainGen.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CityGeneration\TownGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\NoiseGeneration\perlinDisplayTest.cs" Line="27" Column="67" />
+      <File FileName="Assets\Scripts\NoiseGeneration\HeightMapUtility.cs" Line="364" Column="5" />
+      <File FileName="Assets\Shaders\builtin_shaders-5.1.1f1\DefaultResourcesExtra\TerrainShaders\Splats\Standard-FirstPass.shader" Line="1" Column="1" />
+      <File FileName="Assets\Shaders\builtin_shaders-5.1.1f1\DefaultResourcesExtra\TerrainShaders\Splats\FirstPass.shader" Line="1" Column="1" />
+      <File FileName="Assets\Shaders\builtin_shaders-5.1.1f1\DefaultResourcesExtra\TerrainShaders\Splats\Specular-AddPass.shader" Line="1" Column="1" />
+      <File FileName="Assets\Shaders\builtin_shaders-5.1.1f1\CGIncludes\TerrainSplatmapCommon.cginc" Line="18" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

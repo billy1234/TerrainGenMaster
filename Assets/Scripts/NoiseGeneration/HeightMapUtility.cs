@@ -100,7 +100,8 @@ namespace heightMapUtility
 			}
 			mesh.vertices = verts;
 			mesh.triangles = tris;
-			mesh.uv = uvs;
+			//mesh.
+			mesh.uv  = uvs;
 			mesh.name = "heightMapToMeshOutPut";
 			mesh.RecalculateNormals();
 			mesh.RecalculateBounds();
@@ -239,6 +240,11 @@ namespace heightMapUtility
 		{
 			int height = Mathf.RoundToInt(oldTexture.height * scaleFactor);
 			int width  = Mathf.RoundToInt(oldTexture.width  * scaleFactor);
+			if(height * width > 1000000000)
+			{
+				Debug.LogError("you are trying to build a texture with atleast 1billion pixels, this will most likeley crash unity");
+				return Texture2D.whiteTexture;
+			}
 			Texture2D texture = new Texture2D(height,width);
 			texture.filterMode = FilterMode.Point;
 			texture.wrapMode = TextureWrapMode.Clamp;
@@ -278,13 +284,44 @@ namespace heightMapUtility
 			this.tilingA = Vector2.one;
 		}
 	};
+	[System.Serializable]
+	public struct splatMapShaderInput
+	{
+		[HideInInspector]
+		public Texture2D weights;
+		public Texture2D textureR;
+		public Texture2D textureG;
+		public Texture2D textureB;
+		public Texture2D textureA;
+		public Texture2D normalR;
+		public Texture2D normalG;
+		public Texture2D normalB;
+		public Texture2D normalA;
+		public Vector2 tillingR;
+		public Vector2 tillingG;
+		public Vector2 tillingB;
+		public Vector2 tillingA;
+	}
 	public static class splatMap
 	{
 		public static  Texture2D splatMapTexure2Drgb(splatMapInput input)
 		{
 			return splatMapTexure2Drgb(input.weights, new Texture2D[4]{input.textureR,input.textureG,input.textureB,input.textureA},new Vector2[4]{input.tilingR,input.tilingG,input.tilingB,input.tilingA});
 		}
+		public static void sendSplatToMaterial(splatMapShaderInput input,Material myMaterial)
+		{
+			myMaterial.SetTexture("_Control",input.weights);
 
+			myMaterial.SetTexture("_Splat3",input.textureA);
+			myMaterial.SetTexture("_Splat2",input.textureB);
+			myMaterial.SetTexture("_Splat1",input.textureG);
+			myMaterial.SetTexture("_Splat0",input.textureR);
+
+			myMaterial.SetTexture("_Normal3",input.normalA);
+			myMaterial.SetTexture("_Normal2",input.normalB);
+			myMaterial.SetTexture("_Normal1",input.normalG);
+			myMaterial.SetTexture("_Normal0",input.normalR);
+		}
 		public static Texture2D splatMapTexure2Drgb(Texture2D weights, Texture2D[] textures,Vector2[] tiling)
 		{
 			int height = weights.height;
@@ -301,25 +338,44 @@ namespace heightMapUtility
 				{
 					Color weight = weights.GetPixel(x,y);
 					float maxWeight = getMaxWeight(weight);
-					Color bendedColor = new Color(0,0,0);
+					Color bendedColor = Color.clear;
 					bendedColor += textures[0].GetPixelBilinear(((float)x/(float)width) * tiling[0].x,((float)y/(float)height) *tiling[0].y) * (weight.r /maxWeight );
 					bendedColor += textures[1].GetPixelBilinear(((float)x/(float)width) * tiling[1].x,((float)y/(float)height) *tiling[1].y) * (weight.g /maxWeight );
 					bendedColor += textures[2].GetPixelBilinear(((float)x/(float)width) * tiling[2].x,((float)y/(float)height) *tiling[2].y) * (weight.b /maxWeight );
 					bendedColor += textures[3].GetPixelBilinear(((float)x/(float)width) * tiling[3].x,((float)y/(float)height) *tiling[3].y) * (weight.a /maxWeight );
-					if(weight == Color.black)
-					{
-						bendedColor = Color.blue;
-					}
 					pixels[x + y * width] = bendedColor;
 				}
 			}
 			return heightMapToTexture.buildTextureFromPixels(pixels,height,width);
 		}
 
+
 		private static float getMaxWeight(Color c)
 		{
 			return c.r + c.g + c.b;
 		}
+
+		public static Mesh uvMapWithTilling(Mesh mesh,splatMapShaderInput input)
+		{
+			Vector2[] uvG = new Vector2[mesh.uv.Length];
+			Vector2[] uvB = new Vector2[mesh.uv.Length];
+			Vector2[] uvA = new Vector2[mesh.uv.Length];
+			for(int i=0; i < mesh.uv.Length; i++)
+			{
+				//mesh.uv1[i] = new Vector2(mesh.uv[i].x * input.tillingR.x,mesh.uv[i].y * input.tillingR.y);
+				uvG[i] = new Vector2(mesh.uv[i].x * input.tillingG.x,mesh.uv[i].y * input.tillingG.y);
+				uvB[i] = new Vector2(mesh.uv[i].x * input.tillingB.x,mesh.uv[i].y * input.tillingB.y);
+				uvA[i] = new Vector2(mesh.uv[i].x * input.tillingA.x,mesh.uv[i].y * input.tillingA.y);
+
+
+			}
+			mesh.uv2 = uvA;
+			mesh.uv3 = uvB;
+			mesh.uv4 = uvG;
+			return mesh;
+		}
+
+
 	}
 }
 

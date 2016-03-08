@@ -228,6 +228,7 @@ namespace NoiseExtention
 						frequency *= lacunarity;
 					}
 
+
 					if(noiseHeight > maxNoise)
 					{
 						maxNoise = noiseHeight;
@@ -239,8 +240,9 @@ namespace NoiseExtention
 					}
 					if(squared)
 					{
-						noiseHeight *= noiseHeight;
+						noiseHeight *= noiseHeight * noiseHeight;
 					}
+
 						noiseMap[x,y] = noiseHeight;
 					
 				}
