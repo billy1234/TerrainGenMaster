@@ -1,14 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Shaders\NoTileStandard.shader">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Editor\IslandGeneratorEditor.cs">
     <Files>
-      <File FileName="Assets\Scripts\NoiseGeneration\perlinDisplayTest.cs" Line="26" Column="44" />
-      <File FileName="Assets\Scripts\NoiseGeneration\HeightMapUtility.cs" Line="1" Column="1" />
-      <File FileName="Assets\Shaders\builtin_shaders-5.1.1f1\DefaultResourcesExtra\TerrainShaders\Splats\Standard-FirstPass.shader" Line="1" Column="1" />
-      <File FileName="Assets\Shaders\builtin_shaders-5.1.1f1\DefaultResourcesExtra\TerrainShaders\Splats\FirstPass.shader" Line="1" Column="1" />
-      <File FileName="Assets\Shaders\builtin_shaders-5.1.1f1\DefaultResourcesExtra\TerrainShaders\Splats\Specular-AddPass.shader" Line="1" Column="1" />
-      <File FileName="Assets\Shaders\builtin_shaders-5.1.1f1\CGIncludes\TerrainSplatmapCommon.cginc" Line="1" Column="1" />
-      <File FileName="Assets\Shaders\NoTileStandard.shader" Line="35" Column="18" />
+      <File FileName="Assets\Scripts\NoiseGeneration\islandGenerator.cs" Line="40" Column="66" />
+      <File FileName="Assets\Scripts\NoiseGeneration\HeightMapUtility.cs" Line="390" Column="3" />
+      <File FileName="Assets\Editor\IslandGeneratorEditor.cs" Line="17" Column="8" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

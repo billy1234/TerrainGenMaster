@@ -34,11 +34,18 @@ namespace heightMapUtility
 			int width = heightMap.GetLength(0);
 			int height = heightMap.GetLength(1);
 			Color[] pixels = new Color[height * width];
+			bool debug = false;
 			for(int y =0; y < height; y++)
 			{
 				for(int x =0; x < width; x++)
 				{
 					pixels[x + y * width] = colorGradient.Evaluate(heightMap[x,y]);
+					if(debug == false)
+					{
+						debug = true;
+							Debug.Log(pixels[x + y * width].a);
+					}
+
 				}
 			}
 			return buildTextureFromPixels(pixels,width,height);
@@ -240,6 +247,10 @@ namespace heightMapUtility
 		{
 			int height = Mathf.RoundToInt(oldTexture.height * scaleFactor);
 			int width  = Mathf.RoundToInt(oldTexture.width  * scaleFactor);
+			if(scaleFactor ==1)
+			{
+				return oldTexture;
+			}
 			if(height * width > 1000000000)
 			{
 				Debug.LogError("you are trying to build a texture with atleast 1billion pixels, this will most likeley crash unity");
@@ -275,7 +286,11 @@ namespace heightMapUtility
 		public Vector2 tilingG;
 		public Vector2 tilingB;
 		public Vector2 tilingA;
-
+		public bool blendTillingR;
+		public bool blendTillingG;
+		public bool blendTillingB;
+		public bool blendTillingA;
+		public bool[] blendBools{get{return new bool[4]{blendTillingR,blendTillingG,blendTillingB,blendTillingA};}}
 		public splatMapInput ()
 		{
 			this.tilingR = Vector2.one;
@@ -306,23 +321,11 @@ namespace heightMapUtility
 	{
 		public static  Texture2D splatMapTexure2Drgb(splatMapInput input)
 		{
-			return splatMapTexure2Drgb(input.weights, new Texture2D[4]{input.textureR,input.textureG,input.textureB,input.textureA},new Vector2[4]{input.tilingR,input.tilingG,input.tilingB,input.tilingA});
+			return splatMapTexure2Drgb(input.weights, new Texture2D[4]{input.textureR,input.textureG,input.textureB,input.textureA},new Vector2[4]{input.tilingR,input.tilingG,input.tilingB,input.tilingA},input.blendBools);
 		}
-		public static void sendSplatToMaterial(splatMapShaderInput input,Material myMaterial)
-		{
-			myMaterial.SetTexture("_Control",input.weights);
 
-			myMaterial.SetTexture("_Splat3",input.textureA);
-			myMaterial.SetTexture("_Splat2",input.textureB);
-			myMaterial.SetTexture("_Splat1",input.textureG);
-			myMaterial.SetTexture("_Splat0",input.textureR);
 
-			myMaterial.SetTexture("_Normal3",input.normalA);
-			myMaterial.SetTexture("_Normal2",input.normalB);
-			myMaterial.SetTexture("_Normal1",input.normalG);
-			myMaterial.SetTexture("_Normal0",input.normalR);
-		}
-		public static Texture2D splatMapTexure2Drgb(Texture2D weights, Texture2D[] textures,Vector2[] tiling)
+		public static Texture2D splatMapTexure2Drgb(Texture2D weights, Texture2D[] textures,Vector2[] tiling,bool[] blendTilling)
 		{
 			int height = weights.height;
 			int width = weights.width;
@@ -330,7 +333,7 @@ namespace heightMapUtility
 			for(int i=0; i < 4; i ++)
 			{
 				textures[i].wrapMode = TextureWrapMode.Repeat;
-
+				
 			}
 			for(int y =0; y < height; y++)
 			{
@@ -339,10 +342,12 @@ namespace heightMapUtility
 					Color weight = weights.GetPixel(x,y);
 					float maxWeight = getMaxWeight(weight);
 					Color bendedColor = Color.clear;
-					bendedColor += textures[0].GetPixelBilinear(((float)x/(float)width) * tiling[0].x,((float)y/(float)height) *tiling[0].y) * (weight.r /maxWeight );
-					bendedColor += textures[1].GetPixelBilinear(((float)x/(float)width) * tiling[1].x,((float)y/(float)height) *tiling[1].y) * (weight.g /maxWeight );
-					bendedColor += textures[2].GetPixelBilinear(((float)x/(float)width) * tiling[2].x,((float)y/(float)height) *tiling[2].y) * (weight.b /maxWeight );
-					bendedColor += textures[3].GetPixelBilinear(((float)x/(float)width) * tiling[3].x,((float)y/(float)height) *tiling[3].y) * (weight.a /maxWeight );
+					//colorToAdd = textures[0].GetPixelBilinear(((float)x/(float)width) * tiling[0].x,((float)y/(float)height) *tiling[0].y) * (weight.r /maxWeight );
+					bendedColor += blend(textures[0],x,y,tiling[0],weight.r,maxWeight,blendTilling[0],width,height);
+					bendedColor += blend(textures[1],x,y,tiling[1],weight.g,maxWeight,blendTilling[1],width,height);
+					bendedColor += blend(textures[2],x,y,tiling[2],weight.b,maxWeight,blendTilling[2],width,height);
+					bendedColor += blend(textures[3],x,y,tiling[3],weight.a,maxWeight,blendTilling[3],width,height);
+
 					pixels[x + y * width] = bendedColor;
 				}
 			}
@@ -352,9 +357,40 @@ namespace heightMapUtility
 		}
 
 
+		public static Texture2D splatMapTexure2Drgb(Texture2D weights, Texture2D[] textures,Vector2[] tiling)
+		{
+			return splatMapTexure2Drgb(weights, textures, tiling,new bool[4]{false,false,false,false});
+		}
+
+		public static void sendSplatToMaterial(splatMapShaderInput input,Material myMaterial)
+		{
+			myMaterial.SetTexture("_Control",input.weights);
+			
+			myMaterial.SetTexture("_Splat3",input.textureA);
+			myMaterial.SetTexture("_Splat2",input.textureB);
+			myMaterial.SetTexture("_Splat1",input.textureG);
+			myMaterial.SetTexture("_Splat0",input.textureR);
+			
+			myMaterial.SetTexture("_Normal3",input.normalA);
+			myMaterial.SetTexture("_Normal2",input.normalB);
+			myMaterial.SetTexture("_Normal1",input.normalG);
+			myMaterial.SetTexture("_Normal0",input.normalR);
+		}
+
+		private static Color blend(Texture2D texture,int x, int y,Vector2 tiling, float weight,float maxWeight,bool blendTilling,float width,float height)
+		{
+			Color final = texture.GetPixelBilinear(((float)x/(float)width) * tiling.x,((float)y/(float)height) *tiling.y) * (weight /maxWeight );
+			if(blendTilling)
+			{
+				final /= 2f;
+				final += texture.GetPixelBilinear((((float)x )/(float)width) * tiling.x * -0.25f,(((float)y )/(float)height) *tiling.y * -0.25f) * (weight /maxWeight )/2f;
+			}
+			return final;
+		}
+
 		private static float getMaxWeight(Color c)
 		{
-			return c.r + c.g + c.b;
+			return c.r + c.g + c.b + c.a;
 		}
 
 		public static Mesh uvMapWithTilling(Mesh mesh,splatMapShaderInput input)

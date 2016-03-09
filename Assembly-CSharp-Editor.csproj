@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\IslandGeneratorEditor.cs" />
      <Compile Include="Assets\Shaders\builtin_shaders-5.1.1f1\Editor\StandardShaderGUI.cs" />
      <None Include="Assets\Shaders\builtin_shaders-5.1.1f1\DefaultResourcesExtra\AlphaTest-Glossy.shader" />
      <None Include="Assets\Shaders\builtin_shaders-5.1.1f1\DefaultResources\Internal-GUITextureClipText.shader" />
